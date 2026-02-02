@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>OOP Concepts in Action</h1>
+    <p class="lead">Where exactly did we use OOP in this project?</p>
+  </header>
+
+  <div class="concept-grid">
+    <a href="/learn/oop/encapsulation" class="concept-card clickable">
+      <div class="concept-icon">🔒</div>
+      <h3>Encapsulation</h3>
+      <p><strong>What:</strong> Hiding internal state.</p>
+      <p><strong>Where:</strong> <code>Account._balance</code> is protected. You cannot change it directly; you MUST use <code>deposit()</code> or <code>withdraw()</code>.</p>
+      <div class="card-footer">Click to learn more →</div>
+    </a>
+
+    <a href="/learn/oop/inheritance" class="concept-card clickable">
+      <div class="concept-icon">🧬</div>
+      <h3>Inheritance</h3>
+      <p><strong>What:</strong> Sharing common logic.</p>
+      <p><strong>Where:</strong> <code>SavingsAccount</code> and <code>CurrentAccount</code> both inherit from <code>Account</code> to get shared attributes like <code>account_id</code> and <code>deposit()</code>.</p>
+      <div class="card-footer">Click to learn more →</div>
+    </a>
+
+    <a href="/learn/oop/polymorphism" class="concept-card clickable">
+      <div class="concept-icon">🎭</div>
+      <h3>Polymorphism</h3>
+      <p><strong>What:</strong> Same method, different behavior.</p>
+      <p><strong>Where:</strong> calling <code>account.withdraw(100)</code> works differently depending on whether it's a Savings or Current account.</p>
+      <div class="card-footer">Click to learn more →</div>
+    </a>
+
+    <a href="/learn/oop/abstraction" class="concept-card clickable">
+      <div class="concept-icon">👻</div>
+      <h3>Abstraction</h3>
+      <p><strong>What:</strong> Enforcing a contract.</p>
+      <p><strong>Where:</strong> The <code>Account</code> class is an <strong>Abstract Base Class (ABC)</strong>. You cannot create a plain <code>Account</code>; you must create a specific type.</p>
+      <div class="card-footer">Click to learn more →</div>
+    </a>
+  </div>
+
+  <section class="call-to-action">
+    <h3>Enough theory. Let's see it in action.</h3>
+    <a href="/app/login" class="btn btn-primary btn-lg">Launch Bank App Demo &rarr;</a>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="center-stage">
+  <div class="auth-card">
+    <header>
+      <h2>Create Account</h2>
+      <p class="subtitle">Start your banking journey</p>
+    </header>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label>Username</label>
+        <input name="username" required minlength="3" autocomplete="username" placeholder="Choose a username" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="password-input-wrapper">
+          <input id="passwordInput" name="password" type="password" required minlength="4" autocomplete="new-password" placeholder="••••••••" />
+          <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+            <span class="eye-icon">👁️</span>
+          </button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Account Type</label>
+        <div class="select-wrapper">
+          <select name="account_type" required>
+            <option value="savings">Savings (No Overdraft)</option>
+            <option value="current">Current (Overdraft Allowed)</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary full-width">Create Account</button>
+    </form>
+
+    <p class="hint">
+      Already have an account? <a href="/app/login">Go to login</a>
+    </p>
+
+    <div id="message" class="message" aria-live="polite"></div>
+  </div>
+</div>
+{% endblock %}

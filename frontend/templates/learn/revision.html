@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>Revision & Quick Reference</h1>
+    <p class="lead">Quick summaries, key takeaways, and common mistakes to avoid.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>OOP Concepts Summary</h2>
+    
+    <div class="concept-summary-grid">
+      <div class="summary-card">
+        <h3>🔒 Encapsulation</h3>
+        <div class="concept-detail">
+          <div class="detail-label">What:</div>
+          <div class="detail-content">Hiding internal state and controlling access</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">How:</div>
+          <div class="detail-content">Use protected attributes (_balance) and methods (deposit, withdraw)</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">Why:</div>
+          <div class="detail-content">Protects data integrity and enforces validation</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">In Our Project:</div>
+          <div class="detail-content">Account._balance is protected, accessed only through methods</div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <h3>🧬 Inheritance</h3>
+        <div class="concept-detail">
+          <div class="detail-label">What:</div>
+          <div class="detail-content">Child classes inherit from parent classes</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">How:</div>
+          <div class="detail-content">class SavingsAccount(Account)</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">Why:</div>
+          <div class="detail-content">Code reuse and consistency</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">In Our Project:</div>
+          <div class="detail-content">SavingsAccount and CurrentAccount inherit from Account</div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <h3>🎭 Polymorphism</h3>
+        <div class="concept-detail">
+          <div class="detail-label">What:</div>
+          <div class="detail-content">Same method name, different behavior</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">How:</div>
+          <div class="detail-content">Override methods in subclasses</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">Why:</div>
+          <div class="detail-content">Flexible, extensible code</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">In Our Project:</div>
+          <div class="detail-content">withdraw() behaves differently for Savings vs Current</div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <h3>👻 Abstraction</h3>
+        <div class="concept-detail">
+          <div class="detail-label">What:</div>
+          <div class="detail-content">Define contract without implementation</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">How:</div>
+          <div class="detail-content">Abstract Base Classes (ABC) with @abstractmethod</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">Why:</div>
+          <div class="detail-content">Enforces interface and prevents invalid objects</div>
+        </div>
+        <div class="concept-detail">
+          <div class="detail-label">In Our Project:</div>
+          <div class="detail-content">Account is abstract, cannot be instantiated directly</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Key Takeaways</h2>
+    <ul class="takeaways-list">
+      <li>
+        <strong>Think in Objects:</strong> Identify real-world entities (User, Account, Transaction) and model them as classes
+      </li>
+      <li>
+        <strong>Separation of Concerns:</strong> Domain classes (what), Services (how), Repositories (storage)
+      </li>
+      <li>
+        <strong>Encapsulation First:</strong> Always protect your data. Don't expose internal state directly
+      </li>
+      <li>
+        <strong>Inheritance for "Is-A":</strong> Use when you have a true "is-a" relationship (SavingsAccount IS AN Account)
+      </li>
+      <li>
+        <strong>Composition for "Has-A":</strong> Use when one class uses another (Service HAS repositories)
+      </li>
+      <li>
+        <strong>Abstract for Contracts:</strong> Use ABC when you want to enforce that subclasses implement certain methods
+      </li>
+      <li>
+        <strong>Polymorphism for Flexibility:</strong> Same interface, different implementations make code extensible
+      </li>
+    </ul>
+  </section>
+
+  <section class="card-section highlight-box">
+    <h2>Common Mistakes to Avoid</h2>
+    
+    <div class="mistakes-grid">
+      <div class="mistake-item">
+        <h4>❌ Mistake: Exposing Internal State</h4>
+        <pre><code>class Account:
+    def __init__(self, balance):
+        self.balance = balance  # Anyone can modify!</code></pre>
+        <p><strong>✅ Fix:</strong> Use protected attribute and methods</p>
+        <pre><code>class Account:
+    def __init__(self, balance):
+        self._balance = balance
+    def deposit(self, amount):
+        self._balance += amount</code></pre>
+      </div>
+
+      <div class="mistake-item">
+        <h4>❌ Mistake: Using Inheritance for Everything</h4>
+        <pre><code>class AccountService(AccountRepository):  # Wrong!</code></pre>
+        <p><strong>✅ Fix:</strong> Use composition</p>
+        <pre><code>class AccountService:
+    def __init__(self):
+        self.repo = AccountRepository()  # Has-a, not is-a</code></pre>
+      </div>
+
+      <div class="mistake-item">
+        <h4>❌ Mistake: No Validation</h4>
+        <pre><code>def deposit(self, amount):
+    self.balance += amount  # No checks!</code></pre>
+        <p><strong>✅ Fix:</strong> Always validate</p>
+        <pre><code>def deposit(self, amount):
+    if amount <= 0:
+        raise ValidationError("Amount must be positive")
+    self._balance += amount</code></pre>
+      </div>
+
+      <div class="mistake-item">
+        <h4>❌ Mistake: Mixing Concerns</h4>
+        <pre><code>class Account:
+    def save_to_file(self):  # Storage in domain class!
+        # File I/O here
+        pass</code></pre>
+        <p><strong>✅ Fix:</strong> Separate layers</p>
+        <pre><code># Domain class - no file I/O
+class Account:
+    def deposit(self, amount): pass
+
+# Repository - handles storage
+class AccountRepository:
+    def save(self, account): pass</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Interview Quick Tips</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h4>When Asked About Encapsulation</h4>
+        <p>Say: "Encapsulation protects data by hiding internal state. In our project, _balance is protected, and we use deposit() and withdraw() methods to modify it, ensuring validation."</p>
+      </div>
+      <div class="tip-card">
+        <h4>When Asked About Inheritance</h4>
+        <p>Say: "Inheritance allows code reuse. SavingsAccount and CurrentAccount inherit from Account, getting shared attributes and methods, but each implements withdraw() differently."</p>
+      </div>
+      <div class="tip-card">
+        <h4>When Asked About Polymorphism</h4>
+        <p>Say: "Polymorphism means same interface, different behavior. Both account types have withdraw(), but Savings prevents overdraft while Current allows it up to -500."</p>
+      </div>
+      <div class="tip-card">
+        <h4>When Asked About Abstraction</h4>
+        <p>Say: "Abstraction defines a contract. Account is abstract - you can't create it directly. You must create SavingsAccount or CurrentAccount that implement all abstract methods."</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Explain in Your Own Words</h2>
+    <p>Practice explaining these concepts as if you're teaching someone:</p>
+    <ul class="practice-list">
+      <li>What is a class and how is it different from an object?</li>
+      <li>Why do we use __init__ method?</li>
+      <li>What's the difference between inheritance and composition?</li>
+      <li>How does polymorphism work in our Bank System?</li>
+      <li>Why is Account an abstract class?</li>
+      <li>What is the Repository Pattern and why do we use it?</li>
+      <li>How does encapsulation protect our data?</li>
+    </ul>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/interview" class="btn btn-primary">Practice Interview Questions →</a>
+    <a href="/learn/interview/assessment" class="btn btn-primary">Take Assessment →</a>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,370 @@
+{
+  "easy": [
+    {
+      "id": "easy_1",
+      "question": "What is a class in Python?",
+      "short_answer": "A class is a blueprint or template for creating objects. It defines attributes (data) and methods (functions) that the objects created from it will have.",
+      "detailed_explanation": "A class is a fundamental concept in Object-Oriented Programming. Think of it as a cookie cutter - the class is the cutter, and objects are the cookies. In our Bank System, 'Account' is a class that defines what every account should have (like balance, account_id) and what it can do (like deposit, withdraw).",
+      "analogy": "A class is like a blueprint for a house. The blueprint (class) defines the structure, rooms, and features. When you build actual houses (objects) from that blueprint, each house has the same structure but different values (different addresses, different furniture).",
+      "code_example": "class Account:\n    def __init__(self, account_id, balance):\n        self.account_id = account_id\n        self.balance = balance\n    \n    def deposit(self, amount):\n        self.balance += amount\n\n# Creating objects from the class\naccount1 = Account('ACC001', 1000)\naccount2 = Account('ACC002', 500)",
+      "project_usage": "In our project, we have Account class (abstract base class), SavingsAccount class, and CurrentAccount class. Each account object created from these classes has account_id, user_id, and balance attributes, and can perform deposit() and withdraw() operations."
+    },
+    {
+      "id": "easy_2",
+      "question": "What is an object in Python?",
+      "short_answer": "An object is an instance of a class. It's a concrete entity created from a class blueprint, with its own specific values for the attributes defined in the class.",
+      "detailed_explanation": "An object is a specific instance created from a class. While a class defines the structure, an object is the actual thing with real data. In Python, when you call a class like a function (e.g., Account()), you create an object.",
+      "analogy": "If 'Car' is a class, then 'My Red Toyota Corolla with license plate ABC123' is an object. The class defines what a car is, but the object is the actual car you drive.",
+      "code_example": "class User:\n    def __init__(self, username, password_hash):\n        self.username = username\n        self.password_hash = password_hash\n\n# Creating objects\nuser1 = User('john_doe', 'hashed_pass_123')\nuser2 = User('jane_smith', 'hashed_pass_456')\n\n# user1 and user2 are objects (instances) of User class",
+      "project_usage": "In our project, when a user registers, we create a User object. When they create an account, we create either a SavingsAccount object or CurrentAccount object. Each object has its own unique data."
+    },
+    {
+      "id": "easy_3",
+      "question": "What is __init__ method in Python?",
+      "short_answer": "__init__ is a special method called a constructor. It's automatically called when you create an object from a class. It initializes the object's attributes with the values you provide.",
+      "detailed_explanation": "The __init__ method is Python's constructor. It runs automatically when you create a new object. It's where you set up the initial state of the object by assigning values to its attributes.",
+      "analogy": "Think of __init__ like a setup process when you buy a new phone. When you first turn it on, it asks you to set your name, language, and preferences. Similarly, __init__ sets up the object with its initial values.",
+      "code_example": "class Account:\n    def __init__(self, account_id, user_id, balance):\n        # This runs automatically when you create an Account object\n        self.account_id = account_id\n        self.user_id = user_id\n        self.balance = balance\n        print(f'Account {account_id} created with balance {balance}')\n\n# When you do this:\naccount = Account('ACC001', 'USER001', 1000)\n# __init__ automatically runs and sets up the account",
+      "project_usage": "In our Account class, __init__ takes account_id, user_id, and balance, and sets them as attributes. It also validates that balance cannot be negative at creation time."
+    },
+    {
+      "id": "easy_4",
+      "question": "What is encapsulation in OOP?",
+      "short_answer": "Encapsulation is the practice of bundling data (attributes) and methods (functions) together in a class, and restricting direct access to some components. It protects data from being modified incorrectly.",
+      "detailed_explanation": "Encapsulation means hiding internal details and controlling access. In Python, we use naming conventions (like _balance for protected attributes) and properties to control how data is accessed and modified.",
+      "analogy": "Think of a vending machine. You can't directly access the money inside or the mechanism. You can only interact through the buttons (public methods). This protects the internal workings from being tampered with.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self._balance = balance  # Protected attribute (underscore)\n    \n    @property\n    def balance(self):\n        return self._balance  # Read-only access\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self._balance += amount  # Controlled modification",
+      "project_usage": "In our Account class, _balance is protected. You can't directly do account._balance = -1000. You must use deposit() or withdraw() methods, which validate the operations first."
+    },
+    {
+      "id": "easy_5",
+      "question": "What is the difference between a class variable and an instance variable?",
+      "short_answer": "Class variables are shared by all instances of a class and are defined at the class level. Instance variables are unique to each object and are defined in __init__ or instance methods.",
+      "detailed_explanation": "Class variables belong to the class itself, not to any specific instance. All objects share the same class variable. Instance variables belong to individual objects - each object has its own copy.",
+      "analogy": "Class variable: Like a company policy that applies to all employees. Instance variable: Like each employee's personal salary, which is different for each person.",
+      "code_example": "class Account:\n    bank_name = 'Python Bank'  # Class variable (shared)\n    \n    def __init__(self, account_id, balance):\n        self.account_id = account_id  # Instance variable (unique)\n        self.balance = balance  # Instance variable\n\naccount1 = Account('ACC001', 1000)\naccount2 = Account('ACC002', 500)\nprint(account1.bank_name)  # 'Python Bank' (same for all)\nprint(account1.balance)  # 1000 (unique to account1)\nprint(account2.balance)  # 500 (unique to account2)",
+      "project_usage": "In our CurrentAccount class, OVERDRAFT_LIMIT = 500 is a class variable - all current accounts share this limit. Each account's balance is an instance variable - unique to that account."
+    },
+    {
+      "id": "easy_6",
+      "question": "What is self in Python?",
+      "short_answer": "self is a reference to the current instance of the class. It's used to access instance variables and methods within the class. It's the first parameter of instance methods.",
+      "detailed_explanation": "self is not a keyword, but a convention. It refers to the specific object that called the method. When you call account.deposit(100), Python automatically passes the account object as self to the deposit method.",
+      "analogy": "Think of self like 'I' or 'me' in English. When you say 'I have a balance', you're referring to yourself. Similarly, self.balance refers to that specific account's balance.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self.balance = balance  # self refers to this specific account\n    \n    def deposit(self, amount):\n        self.balance += amount  # Modifying THIS account's balance\n\naccount1 = Account(1000)\naccount2 = Account(500)\naccount1.deposit(100)  # self inside deposit() refers to account1\naccount2.deposit(50)   # self inside deposit() refers to account2",
+      "project_usage": "In our Account class, self._balance refers to the specific account's balance. When account1.deposit(100) is called, self refers to account1, so we modify account1's balance, not account2's."
+    },
+    {
+      "id": "easy_7",
+      "question": "What is a method in Python?",
+      "short_answer": "A method is a function defined inside a class. It operates on the class instances (objects) and can access and modify the object's attributes using self.",
+      "detailed_explanation": "Methods are functions that belong to a class. They define what actions objects of that class can perform. Instance methods take self as the first parameter and can access instance data.",
+      "analogy": "If a class is a blueprint for a car, methods are the car's features - like 'start_engine()', 'accelerate()', 'brake()'. Each car (object) can use these methods, but they operate on that specific car.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n    \n    def deposit(self, amount):  # This is a method\n        self.balance += amount\n    \n    def withdraw(self, amount):  # Another method\n        self.balance -= amount\n\naccount = Account(1000)\naccount.deposit(500)  # Calling the deposit method",
+      "project_usage": "Our Account class has methods like deposit(), withdraw(), and properties like balance. These methods define what operations can be performed on account objects."
+    },
+    {
+      "id": "easy_8",
+      "question": "What is the difference between a function and a method?",
+      "short_answer": "A function is defined outside a class and can be called independently. A method is defined inside a class and is called on an object instance. Methods have access to the object's data through self.",
+      "detailed_explanation": "Functions are standalone - they don't belong to any class. Methods belong to a class and are called on instances. Methods automatically receive the instance as the first parameter (self).",
+      "analogy": "A function is like a public utility (anyone can use it). A method is like a personal tool that belongs to a specific object (only that object can use it, and it knows about that object's state).",
+      "code_example": "# Function (standalone)\ndef calculate_interest(principal, rate):\n    return principal * rate\n\n# Method (belongs to class)\nclass Account:\n    def calculate_interest(self, rate):\n        return self.balance * rate  # Uses self.balance\n\n# Usage\ninterest = calculate_interest(1000, 0.05)  # Function call\naccount = Account(1000)\ninterest = account.calculate_interest(0.05)  # Method call",
+      "project_usage": "In our project, deposit() and withdraw() are methods of the Account class. They operate on account instances. We could also have standalone utility functions, but we keep business logic in methods."
+    },
+    {
+      "id": "easy_9",
+      "question": "What are attributes in a Python class?",
+      "short_answer": "Attributes are variables that belong to a class or its instances. They store data associated with the class or object. Instance attributes are unique to each object, class attributes are shared.",
+      "detailed_explanation": "Attributes are the data members of a class. They can be instance attributes (specific to each object) or class attributes (shared by all instances). Attributes are accessed using dot notation.",
+      "analogy": "Attributes are like properties of an object. A car has attributes: color, model, year. Each car has different values for these attributes, but all cars have these same types of attributes.",
+      "code_example": "class Account:\n    bank_name = 'Python Bank'  # Class attribute\n    \n    def __init__(self, account_id, balance):\n        self.account_id = account_id  # Instance attribute\n        self.balance = balance  # Instance attribute\n\naccount = Account('ACC001', 1000)\nprint(account.account_id)  # Accessing instance attribute\nprint(account.balance)    # Accessing instance attribute\nprint(Account.bank_name)  # Accessing class attribute",
+      "project_usage": "Our Account class has instance attributes like account_id, user_id, and _balance. Each account object has its own values for these. CurrentAccount has a class attribute OVERDRAFT_LIMIT shared by all current accounts."
+    },
+    {
+      "id": "easy_10",
+      "question": "What is the purpose of the @property decorator in Python?",
+      "short_answer": "@property allows you to define methods that can be accessed like attributes. It provides a way to control access to instance variables, allowing you to add validation or computation when getting or setting values.",
+      "detailed_explanation": "The @property decorator converts a method into a read-only attribute. You can access it like account.balance instead of account.balance(). It's useful for computed properties or read-only access to protected attributes.",
+      "analogy": "Think of @property like a smart door. Instead of having a direct door (attribute), you have a door with a security system (method) that checks before allowing access, but it looks and feels like a regular door.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self._balance = balance  # Protected\n    \n    @property\n    def balance(self):  # Can access like account.balance\n        return self._balance  # Read-only access\n\naccount = Account(1000)\nprint(account.balance)  # Works like an attribute\n# account.balance = 500  # This would fail (read-only)",
+      "project_usage": "In our Account class, we use @property for balance to provide read-only access to _balance. Users can check account.balance but cannot directly modify it - they must use deposit() or withdraw()."
+    }
+  ],
+  "medium": [
+    {
+      "id": "medium_1",
+      "question": "What is inheritance in Python? Explain with example.",
+      "short_answer": "Inheritance allows a class (child/subclass) to inherit attributes and methods from another class (parent/superclass). It promotes code reuse and establishes an 'is-a' relationship.",
+      "detailed_explanation": "Inheritance lets you create a new class based on an existing class. The child class gets all the parent's features and can add its own or override existing ones. This follows the DRY (Don't Repeat Yourself) principle.",
+      "analogy": "Think of inheritance like a family tree. A 'Vehicle' class might have wheels and an engine. 'Car' and 'Motorcycle' inherit from Vehicle, so they automatically get wheels and engine, but each adds its own specific features (Car has 4 wheels, Motorcycle has 2).",
+      "code_example": "class Account:\n    def __init__(self, account_id, balance):\n        self.account_id = account_id\n        self.balance = balance\n    \n    def deposit(self, amount):\n        self.balance += amount\n\nclass SavingsAccount(Account):  # Inherits from Account\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError('Insufficient funds')\n        self.balance -= amount\n\n# SavingsAccount automatically gets deposit() from Account",
+      "project_usage": "SavingsAccount and CurrentAccount both inherit from Account. They get account_id, user_id, _balance, and deposit() method automatically. They only need to implement their own withdraw() method with different rules."
+    },
+    {
+      "id": "medium_2",
+      "question": "What is polymorphism in Python?",
+      "short_answer": "Polymorphism means 'many forms'. It allows objects of different classes to be treated through the same interface, but each class implements the behavior differently.",
+      "detailed_explanation": "Polymorphism lets you use the same method name across different classes, but each class implements it differently. When you call the method, Python automatically uses the correct implementation based on the object's actual type.",
+      "analogy": "Think of different animals making sounds. A 'Dog' says 'Woof', a 'Cat' says 'Meow', but both have a 'make_sound()' method. You can call make_sound() on any animal, and it will make the appropriate sound for that animal type.",
+      "code_example": "class Account:\n    def withdraw(self, amount):\n        pass  # Abstract\n\nclass SavingsAccount(Account):\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError('No overdraft')\n        self.balance -= amount\n\nclass CurrentAccount(Account):\n    def withdraw(self, amount):\n        if self.balance - amount < -500:\n            raise ValueError('Overdraft limit')\n        self.balance -= amount\n\n# Same method name, different behavior\naccount1 = SavingsAccount('ACC001', 1000)\naccount2 = CurrentAccount('ACC002', 1000)\naccount1.withdraw(500)  # Checks balance >= 0\naccount2.withdraw(1500)  # Allows up to -500",
+      "project_usage": "In our project, both SavingsAccount and CurrentAccount have withdraw() method, but they behave differently. SavingsAccount prevents negative balance, while CurrentAccount allows overdraft up to -500."
+    },
+    {
+      "id": "medium_3",
+      "question": "What is abstraction in Python? How is it implemented?",
+      "short_answer": "Abstraction focuses on what an object does rather than how it does it. In Python, we use Abstract Base Classes (ABC) to define a contract that subclasses must implement.",
+      "detailed_explanation": "Abstraction hides complexity and defines a contract. An abstract class cannot be instantiated directly - you must create a subclass that implements all abstract methods. This ensures all subclasses follow the same interface.",
+      "analogy": "Think of a 'Vehicle' abstract class. You can't create a generic 'Vehicle' object. You must create a specific type like 'Car' or 'Bike' that implements the abstract methods like 'start_engine()'. The abstract class says 'all vehicles must have start_engine()', but doesn't say how.",
+      "code_example": "from abc import ABC, abstractmethod\n\nclass Account(ABC):\n    @abstractmethod\n    def withdraw(self, amount):\n        pass  # Must be implemented by subclasses\n    \n    def deposit(self, amount):\n        self.balance += amount  # Concrete method\n\nclass SavingsAccount(Account):\n    def withdraw(self, amount):  # Must implement\n        if amount > self.balance:\n            raise ValueError('Insufficient funds')\n        self.balance -= amount\n\n# This will fail:\n# account = Account()  # TypeError: Can't instantiate abstract class",
+      "project_usage": "Our Account class is abstract. You cannot create account = Account(). You must create SavingsAccount or CurrentAccount, which must implement the abstract withdraw() and account_type methods."
+    },
+    {
+      "id": "medium_4",
+      "question": "What is the difference between composition and inheritance?",
+      "short_answer": "Inheritance is an 'is-a' relationship (SavingsAccount IS AN Account). Composition is a 'has-a' relationship (BankService HAS repositories). Use inheritance when you want to share behavior, composition when you want to use functionality.",
+      "detailed_explanation": "Inheritance creates a parent-child relationship where the child is a type of parent. Composition creates a relationship where one class contains/uses another class. Inheritance is tighter coupling, composition is looser coupling.",
+      "analogy": "Inheritance: A Car IS A Vehicle. Composition: A Car HAS AN Engine. The car contains an engine but isn't a type of engine. You can replace the engine (composition) but you can't change that a car is a vehicle (inheritance).",
+      "code_example": "# Inheritance\nclass SavingsAccount(Account):  # IS-A relationship\n    pass\n\n# Composition\nclass AccountService:\n    def __init__(self):\n        self.account_repo = AccountRepository()  # HAS-A relationship\n        self.transaction_repo = TransactionRepository()\n    \n    def deposit(self, user_id, amount):\n        account = self.account_repo.find_by_user_id(user_id)  # Uses repository\n        account.deposit(amount)\n        self.account_repo.save(account)",
+      "project_usage": "Inheritance: SavingsAccount inherits from Account. Composition: AccountService uses AccountRepository and TransactionRepository. The service doesn't inherit from repositories, it uses them."
+    },
+    {
+      "id": "medium_5",
+      "question": "What is method resolution order (MRO) in Python?",
+      "short_answer": "MRO is the order in which Python searches for methods and attributes in a class hierarchy. It follows the C3 linearization algorithm, ensuring a consistent and predictable order when dealing with multiple inheritance.",
+      "detailed_explanation": "MRO determines which class's method is called when you have inheritance chains. Python uses the C3 algorithm to create a linear ordering that respects the inheritance hierarchy and avoids ambiguity. You can view MRO using Class.__mro__ or Class.mro().",
+      "analogy": "Think of MRO like a family tree search. If you ask 'Who has the car keys?', you check yourself first, then your parents, then grandparents, in a specific order. MRO does the same for methods - it searches in a predictable order.",
+      "code_example": "class A:\n    def method(self):\n        return 'A'\n\nclass B(A):\n    def method(self):\n        return 'B'\n\nclass C(A):\n    def method(self):\n        return 'C'\n\nclass D(B, C):\n    pass\n\nprint(D.__mro__)  # Shows search order: D -> B -> C -> A -> object\nd = D()\nprint(d.method())  # Returns 'B' (found in B first)",
+      "project_usage": "In our project, we use single inheritance (SavingsAccount inherits from Account), so MRO is straightforward. But understanding MRO helps when you have complex inheritance hierarchies."
+    },
+    {
+      "id": "medium_6",
+      "question": "What is the super() function in Python?",
+      "short_answer": "super() returns a proxy object that allows you to call methods from the parent class. It's used to access parent class methods, especially when overriding methods in child classes.",
+      "detailed_explanation": "super() provides a way to call parent class methods without explicitly naming the parent class. It's useful for extending parent functionality rather than completely replacing it. It follows MRO to find the correct parent method.",
+      "analogy": "Think of super() like calling your parent for advice. Instead of doing everything from scratch, you can ask your parent (super()) to handle the base functionality, then add your own specific behavior on top.",
+      "code_example": "class Account:\n    def __init__(self, account_id, balance):\n        self.account_id = account_id\n        self.balance = balance\n        print('Account initialized')\n\nclass SavingsAccount(Account):\n    def __init__(self, account_id, balance, interest_rate):\n        super().__init__(account_id, balance)  # Call parent's __init__\n        self.interest_rate = interest_rate  # Add child-specific attribute\n        print('SavingsAccount initialized')\n\naccount = SavingsAccount('ACC001', 1000, 0.05)",
+      "project_usage": "In our project, we could use super() in SavingsAccount.__init__ to call Account.__init__ and then add savings-specific initialization. This ensures parent initialization happens correctly."
+    },
+    {
+      "id": "medium_7",
+      "question": "What is duck typing in Python?",
+      "short_answer": "Duck typing is a programming concept where the type or class of an object is less important than the methods it defines. 'If it walks like a duck and quacks like a duck, it's a duck.'",
+      "detailed_explanation": "In duck typing, Python doesn't check the type of an object. Instead, it checks if the object has the required methods or attributes. If an object has the right methods, it can be used regardless of its actual type.",
+      "analogy": "If you need something that can 'fly', you don't care if it's a bird, plane, or superhero. As long as it has a fly() method, you can use it. That's duck typing - focus on behavior, not type.",
+      "code_example": "class Bird:\n    def fly(self):\n        return 'Flying like a bird'\n\nclass Airplane:\n    def fly(self):\n        return 'Flying like a plane'\n\ndef make_it_fly(obj):  # Doesn't care about type\n    return obj.fly()  # Just needs fly() method\n\nbird = Bird()\nplane = Airplane()\nprint(make_it_fly(bird))   # Works\nprint(make_it_fly(plane))  # Also works",
+      "project_usage": "In our project, we use duck typing implicitly. When we call account.withdraw(100), Python doesn't care if it's SavingsAccount or CurrentAccount - as long as it has withdraw(), it works. This is polymorphism through duck typing."
+    },
+    {
+      "id": "medium_8",
+      "question": "What is the difference between __str__ and __repr__ in Python?",
+      "short_answer": "__str__ returns a human-readable string representation of the object (for end users). __repr__ returns an unambiguous string representation (for developers, should ideally be valid Python code).",
+      "detailed_explanation": "__str__ is called by str() and print() - it's meant to be readable. __repr__ is called by repr() and is meant to be unambiguous, ideally showing how to recreate the object. If __str__ is not defined, __repr__ is used as fallback.",
+      "analogy": "__str__ is like a friendly name tag ('John'). __repr__ is like a unique ID badge ('Employee ID: 12345, Department: Engineering'). One is user-friendly, the other is precise and unambiguous.",
+      "code_example": "class Account:\n    def __init__(self, account_id, balance):\n        self.account_id = account_id\n        self.balance = balance\n    \n    def __str__(self):\n        return f'Account {self.account_id} with balance {self.balance}'\n    \n    def __repr__(self):\n        return f'Account(account_id=\"{self.account_id}\", balance={self.balance})'\n\naccount = Account('ACC001', 1000)\nprint(str(account))    # 'Account ACC001 with balance 1000'\nprint(repr(account))   # 'Account(account_id=\"ACC001\", balance=1000)'",
+      "project_usage": "In our project, we could add __str__ and __repr__ to Account classes for better debugging and user display. __str__ could show a friendly message, __repr__ could show how to recreate the object."
+    },
+    {
+      "id": "medium_9",
+      "question": "What are magic methods (dunder methods) in Python?",
+      "short_answer": "Magic methods are special methods with double underscores (like __init__, __str__, __repr__). They define how objects behave with built-in Python operations and are called automatically by Python.",
+      "detailed_explanation": "Magic methods allow you to define how your objects interact with Python's built-in operations. For example, __add__ defines what happens when you use + operator, __len__ defines what len() returns, __eq__ defines == comparison.",
+      "analogy": "Magic methods are like custom instructions for your object. They tell Python 'when someone tries to add two of my objects, do this' or 'when someone prints me, show this'. They make your objects work naturally with Python's syntax.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n    \n    def __add__(self, other):  # Defines + operator\n        return Account(self.balance + other.balance)\n    \n    def __eq__(self, other):  # Defines == operator\n        return self.balance == other.balance\n\nacc1 = Account(1000)\nacc2 = Account(500)\nacc3 = acc1 + acc2  # Uses __add__\nprint(acc1 == acc2)  # Uses __eq__",
+      "project_usage": "In our project, we use __init__ (constructor). We could add __str__ for better display, __eq__ to compare accounts, or __len__ if we had collections of accounts."
+    },
+    {
+      "id": "medium_10",
+      "question": "What is method chaining in Python?",
+      "short_answer": "Method chaining allows you to call multiple methods on an object in a single statement. Each method returns self (or the object), allowing the next method to be called on the result.",
+      "detailed_explanation": "Method chaining makes code more readable by allowing sequential operations. To enable chaining, methods should return self (or the object itself) so the next method can be called on the returned value.",
+      "analogy": "Think of method chaining like a recipe: 'Take the pan, add oil, heat it, add onions, cook them'. Each step returns the pan so you can continue. Similarly, each method returns the object so you can chain operations.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n    \n    def deposit(self, amount):\n        self.balance += amount\n        return self  # Return self for chaining\n    \n    def apply_fee(self, fee):\n        self.balance -= fee\n        return self\n\naccount = Account(1000)\naccount.deposit(500).apply_fee(10)  # Chaining\nprint(account.balance)  # 1490",
+      "project_usage": "In our project, we don't use method chaining, but we could modify deposit() and withdraw() to return self, allowing account.deposit(100).withdraw(50) for fluent interfaces."
+    }
+  ],
+  "hard": [
+    {
+      "id": "hard_1",
+      "question": "Explain SOLID principles in Python OOP with examples from your project.",
+      "short_answer": "SOLID stands for Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, and Dependency Inversion. These principles guide good OOP design.",
+      "detailed_explanation": "SOLID principles help create maintainable, scalable code. Single Responsibility: Each class should have one reason to change. Open/Closed: Open for extension, closed for modification. Liskov Substitution: Subclasses should be substitutable for their base class. Interface Segregation: Many specific interfaces are better than one general. Dependency Inversion: Depend on abstractions, not concretions.",
+      "analogy": "Think of SOLID like building a house. Single Responsibility: Each room has one purpose. Open/Closed: You can add rooms (extend) without changing existing ones. Liskov: A bedroom can replace any room (substitutable). Interface Segregation: Different rooms have different interfaces. Dependency Inversion: House depends on room abstractions, not specific room types.",
+      "code_example": "# Single Responsibility: AccountRepository only handles account storage\nclass AccountRepository:\n    def save(self, account): pass\n    def find_by_id(self, id): pass\n\n# Open/Closed: Can add new account types without modifying Account class\nclass PremiumAccount(Account):  # Extension, not modification\n    pass\n\n# Liskov Substitution: Any Account subclass can replace Account\ndef process_account(account: Account):  # Works with any subclass\n    account.withdraw(100)\n\n# Dependency Inversion: Service depends on repository abstraction\nclass AccountService:\n    def __init__(self, repo):  # Depends on abstraction\n        self.repo = repo",
+      "project_usage": "Our project follows SOLID: AccountRepository has single responsibility (storage). We can add new account types (Open/Closed). SavingsAccount can replace Account anywhere (Liskov). Services depend on repository interfaces (Dependency Inversion)."
+    },
+    {
+      "id": "hard_2",
+      "question": "What is method overriding vs method overloading in Python?",
+      "short_answer": "Method overriding is when a subclass provides a different implementation of a method defined in the parent class. Python doesn't support traditional method overloading (same method name with different parameters), but we can achieve similar effects with default parameters or *args.",
+      "detailed_explanation": "Overriding replaces a parent's method implementation in the child. Overloading (not natively supported in Python) would allow multiple methods with the same name but different parameters. Python uses duck typing and flexible parameters instead.",
+      "analogy": "Overriding: A child learns to cook from a parent's recipe but modifies it (overrides). Overloading: Having multiple recipes with the same name but different ingredients (not common in Python).",
+      "code_example": "# Method Overriding\nclass Account:\n    def withdraw(self, amount):\n        print('Base withdraw')\n\nclass SavingsAccount(Account):\n    def withdraw(self, amount):  # Overrides parent's withdraw\n        if amount > self.balance:\n            raise ValueError('Insufficient funds')\n        self.balance -= amount\n\n# Python doesn't support overloading, but we can use:\ndef process_transaction(amount, account_id=None, note=''):\n    # Default parameters simulate overloading\n    pass",
+      "project_usage": "SavingsAccount and CurrentAccount override the abstract withdraw() method from Account, each providing different implementations. We don't use overloading, but our methods use clear parameter names for clarity."
+    },
+    {
+      "id": "hard_3",
+      "question": "Explain the difference between class method, static method, and instance method.",
+      "short_answer": "Instance methods work with instance data (need self). Class methods work with the class itself (need cls, can access class variables). Static methods don't need instance or class (utility functions).",
+      "detailed_explanation": "Instance methods are the most common - they operate on instance data. Class methods can create alternative constructors or work with class-level data. Static methods are utility functions that logically belong to the class but don't need instance or class data.",
+      "analogy": "Instance method: 'My car's color is red' (needs the specific car). Class method: 'All cars have 4 wheels' (about the car type). Static method: 'Calculate fuel efficiency' (utility, doesn't need a specific car).",
+      "code_example": "class Account:\n    interest_rate = 0.05  # Class variable\n    \n    def __init__(self, balance):\n        self.balance = balance  # Instance variable\n    \n    def deposit(self, amount):  # Instance method\n        self.balance += amount  # Uses self\n    \n    @classmethod\n    def from_dict(cls, data):  # Class method\n        return cls(data['balance'])  # Uses cls\n    \n    @staticmethod\n    def calculate_interest(principal, rate, time):  # Static method\n        return principal * rate * time  # No self or cls",
+      "project_usage": "In our project, we use instance methods like deposit() and withdraw(). We could add a class method like Account.from_json() to create accounts from JSON data, or a static method like Account.validate_amount() for validation utilities."
+    },
+    {
+      "id": "hard_4",
+      "question": "What is the difference between __new__ and __init__ in Python?",
+      "short_answer": "__new__ is called before __init__ and is responsible for creating the instance. __init__ is called after the instance is created and initializes it. __new__ returns the instance, __init__ returns None.",
+      "detailed_explanation": "__new__ is a static method that creates and returns a new instance. It's called first. __init__ is an instance method that initializes the newly created instance. __new__ controls object creation, __init__ controls object initialization.",
+      "analogy": "__new__ is like building a house (creating the structure). __init__ is like moving in and setting up furniture (initializing the house). You can't initialize something that doesn't exist yet.",
+      "code_example": "class Account:\n    def __new__(cls, account_id, balance):\n        print('Creating instance...')\n        instance = super().__new__(cls)  # Actually creates the object\n        return instance\n    \n    def __init__(self, account_id, balance):\n        print('Initializing instance...')\n        self.account_id = account_id\n        self.balance = balance\n\naccount = Account('ACC001', 1000)  # __new__ runs first, then __init__",
+      "project_usage": "In our project, we use __init__ for initialization. We could use __new__ for singleton pattern or to control object creation, but for our use case, __init__ is sufficient."
+    },
+    {
+      "id": "hard_5",
+      "question": "What is the difference between isinstance() and type() in Python?",
+      "short_answer": "isinstance() checks if an object is an instance of a class or any of its subclasses (considers inheritance). type() returns the exact type of the object (doesn't consider inheritance).",
+      "detailed_explanation": "isinstance() is inheritance-aware - it returns True if the object is an instance of the class or any subclass. type() returns the exact class and doesn't consider inheritance hierarchy.",
+      "analogy": "isinstance(): 'Is this a vehicle?' (returns True for Car, Bike, Truck - all are vehicles). type(): 'What exact type is this?' (returns 'Car', not 'Vehicle').",
+      "code_example": "class Account:\n    pass\n\nclass SavingsAccount(Account):\n    pass\n\naccount = SavingsAccount()\n\nprint(isinstance(account, Account))      # True (inheritance-aware)\nprint(isinstance(account, SavingsAccount))  # True\nprint(type(account) == Account)         # False (exact type only)\nprint(type(account) == SavingsAccount)  # True",
+      "project_usage": "In our project, isinstance(account, Account) would return True for both SavingsAccount and CurrentAccount objects, which is useful for polymorphism. type() would return the exact class."
+    },
+    {
+      "id": "hard_6",
+      "question": "What is the difference between __getattr__ and __getattribute__?",
+      "short_answer": "__getattribute__ is called for every attribute access. __getattr__ is only called when an attribute is not found through normal lookup. Use __getattribute__ with caution, prefer __getattr__ for missing attributes.",
+      "detailed_explanation": "__getattribute__ intercepts ALL attribute access, even for existing attributes. __getattr__ is a fallback that's only called when Python can't find the attribute through normal means (__dict__, class hierarchy, etc.).",
+      "analogy": "__getattribute__ is like a security guard that checks everyone entering (every attribute access). __getattr__ is like a help desk that only helps when you can't find what you're looking for (missing attributes).",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self.balance = balance\n    \n    def __getattr__(self, name):  # Only for missing attributes\n        if name == 'formatted_balance':\n            return f'${self.balance:.2f}'\n        raise AttributeError(f'No attribute {name}')\n\naccount = Account(1000)\nprint(account.balance)  # Normal access, __getattr__ not called\nprint(account.formatted_balance)  # Missing attribute, __getattr__ called",
+      "project_usage": "In our project, we could use __getattr__ to provide computed properties like account.formatted_balance that aren't stored but calculated on demand."
+    },
+    {
+      "id": "hard_7",
+      "question": "What is the difference between __dict__ and __slots__ in Python?",
+      "short_answer": "__dict__ is a dictionary that stores all instance attributes (default behavior). __slots__ restricts which attributes can be set, saving memory by preventing __dict__ creation. Use __slots__ for memory optimization.",
+      "detailed_explanation": "By default, Python stores instance attributes in __dict__, which is flexible but uses more memory. __slots__ declares exactly which attributes are allowed, preventing __dict__ creation and saving memory, especially for many small objects.",
+      "analogy": "__dict__ is like a backpack where you can put anything. __slots__ is like a specific organizer with labeled pockets - you can only put things in designated spots, but it's more organized and takes less space.",
+      "code_example": "class Account:\n    __slots__ = ['account_id', 'user_id', '_balance']  # Only these attributes allowed\n    \n    def __init__(self, account_id, user_id, balance):\n        self.account_id = account_id\n        self.user_id = user_id\n        self._balance = balance\n\naccount = Account('ACC001', 'USER001', 1000)\n# account.new_attr = 'test'  # Would raise AttributeError\n# No __dict__ created, saves memory",
+      "project_usage": "In our project, we could use __slots__ in Transaction class since it's immutable and has fixed attributes. This would save memory when storing many transactions."
+    },
+    {
+      "id": "hard_8",
+      "question": "What is the difference between aggregation and composition?",
+      "short_answer": "Both are 'has-a' relationships. Composition is stronger - the child cannot exist without the parent (lifecycle dependency). Aggregation is weaker - the child can exist independently (no lifecycle dependency).",
+      "detailed_explanation": "In composition, the parent owns the child - if the parent is destroyed, the child is destroyed too. In aggregation, the parent uses the child but doesn't own it - the child can exist independently. Composition is 'part-of', aggregation is 'uses'.",
+      "analogy": "Composition: A Room IS PART OF a House - if the house is demolished, the room is gone. Aggregation: A Student USES a Library - if the student graduates, the library still exists.",
+      "code_example": "# Composition (strong relationship)\nclass Account:\n    def __init__(self, account_id):\n        self.account_id = account_id\n        self.transactions = []  # Account owns transactions\n    \n    def add_transaction(self, tx):\n        self.transactions.append(tx)  # Transaction tied to account\n\n# Aggregation (weak relationship)\nclass AccountService:\n    def __init__(self, repo):\n        self.repo = repo  # Uses repository, but repo exists independently",
+      "project_usage": "In our project, AccountService uses (aggregates) repositories - repositories can exist without the service. Transactions are composed within accounts in some designs, but we store them separately for flexibility."
+    },
+    {
+      "id": "hard_9",
+      "question": "What is the Factory Pattern and how would you implement it?",
+      "short_answer": "Factory Pattern provides an interface for creating objects without specifying their exact class. A factory method creates objects based on input parameters, encapsulating object creation logic.",
+      "detailed_explanation": "Factory Pattern centralizes object creation. Instead of calling constructors directly, you call a factory method that decides which class to instantiate based on parameters. This makes code more flexible and easier to extend.",
+      "analogy": "Think of a factory method like a restaurant order system. You say 'I want a pizza' (parameter), and the kitchen (factory) decides which type of pizza to make based on your order, without you needing to know the exact pizza class.",
+      "code_example": "class AccountFactory:\n    @staticmethod\n    def create_account(account_type, account_id, user_id, balance):\n        if account_type == 'savings':\n            return SavingsAccount(account_id, user_id, balance)\n        elif account_type == 'current':\n            return CurrentAccount(account_id, user_id, balance)\n        else:\n            raise ValueError(f'Unknown account type: {account_type}')\n\n# Usage\naccount = AccountFactory.create_account('savings', 'ACC001', 'USER001', 1000)",
+      "project_usage": "In our project, we could use a factory pattern in AccountRepository._deserialize() to create the correct account type from JSON data. This centralizes the creation logic."
+    },
+    {
+      "id": "hard_10",
+      "question": "What is the Observer Pattern and when would you use it?",
+      "short_answer": "Observer Pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified automatically. Useful for event-driven systems and decoupling components.",
+      "detailed_explanation": "Observer Pattern allows objects to subscribe to events from another object (subject). When the subject's state changes, it notifies all observers. This creates loose coupling - observers don't need to know about each other.",
+      "analogy": "Think of a newsletter subscription. The newsletter (subject) maintains a list of subscribers (observers). When a new issue is published, all subscribers are automatically notified. They don't need to check manually.",
+      "code_example": "class Account:\n    def __init__(self, balance):\n        self._balance = balance\n        self._observers = []\n    \n    def attach(self, observer):\n        self._observers.append(observer)\n    \n    def deposit(self, amount):\n        self._balance += amount\n        self._notify()\n    \n    def _notify(self):\n        for observer in self._observers:\n            observer.update(self._balance)\n\nclass BalanceLogger:\n    def update(self, balance):\n        print(f'Balance updated to: {balance}')",
+      "project_usage": "In our project, we could use Observer Pattern to notify different systems when a transaction occurs - maybe send an email, update a dashboard, or log to a file, all without tight coupling."
+    }
+  ],
+  "expert": [
+    {
+      "id": "expert_1",
+      "question": "How would you implement the Repository Pattern in Python? Explain its benefits.",
+      "short_answer": "The Repository Pattern abstracts data access logic. It provides a collection-like interface for accessing domain objects, hiding the complexity of data persistence. Benefits include testability, flexibility to change storage, and separation of concerns.",
+      "detailed_explanation": "Repository Pattern creates an abstraction layer between business logic and data access. Instead of business code directly accessing files/databases, it uses repository objects. This makes code testable (can mock repositories), flexible (can switch from JSON to database), and maintainable (storage logic isolated).",
+      "analogy": "Think of a library. You don't go directly to the shelves to get books. You ask the librarian (repository), who handles finding, storing, and organizing books. If the library moves to a new building (changes storage), you still interact with the librarian the same way.",
+      "code_example": "class AccountRepository:\n    def __init__(self, storage):\n        self.storage = storage  # Could be JSON, database, etc.\n    \n    def save(self, account):\n        data = self.storage.load()\n        data['accounts'].append(self._serialize(account))\n        self.storage.save(data)\n    \n    def find_by_id(self, account_id):\n        data = self.storage.load()\n        for acc in data['accounts']:\n            if acc['id'] == account_id:\n                return self._deserialize(acc)\n        return None\n\n# Business logic doesn't know about JSON files\nclass AccountService:\n    def __init__(self, repo: AccountRepository):\n        self.repo = repo  # Depends on abstraction",
+      "project_usage": "Our AccountRepository, UserRepository, and TransactionRepository implement this pattern. They hide JSON file operations from AccountService. If we wanted to switch to a database, we'd only change the repositories, not the services."
+    },
+    {
+      "id": "expert_2",
+      "question": "Explain the difference between shallow copy and deep copy in Python. When would you use each?",
+      "short_answer": "Shallow copy creates a new object but references the same nested objects. Deep copy creates a completely independent copy with all nested objects also copied. Use shallow copy for simple objects, deep copy when you need complete independence.",
+      "detailed_explanation": "Shallow copy copies the top level only. If your object contains other objects (like lists or other class instances), shallow copy shares those. Deep copy recursively copies everything, creating fully independent objects.",
+      "analogy": "Shallow copy: Like photocopying a document with sticky notes. The document is copied, but the sticky notes (nested objects) are still the same ones. Deep copy: Like retyping the entire document including rewriting all sticky notes - completely independent.",
+      "code_example": "import copy\n\nclass Transaction:\n    def __init__(self, amount, details):\n        self.amount = amount\n        self.details = details  # List\n\noriginal = Transaction(100, ['deposit', 'salary'])\n\n# Shallow copy\nshallow = copy.copy(original)\nshallow.details.append('verified')  # Also modifies original.details!\n\n# Deep copy\ndeep = copy.deepcopy(original)\ndeep.details.append('verified')  # Only modifies deep.details",
+      "project_usage": "In our project, when we load transactions from JSON, we create new Transaction objects (which are immutable dataclasses). We don't need to worry about copying because each transaction is created fresh from the data."
+    },
+    {
+      "id": "expert_3",
+      "question": "How would you implement a Singleton pattern in Python? When is it useful?",
+      "short_answer": "Singleton ensures only one instance of a class exists. In Python, you can use __new__ method or decorators. Useful for database connections, configuration managers, or logging systems where you want a single shared instance.",
+      "detailed_explanation": "Singleton pattern restricts instantiation to one object. It's useful when you need exactly one instance to coordinate actions across the system. However, it can make testing harder and is often considered an anti-pattern in modern Python.",
+      "analogy": "Think of a company's CEO. There's only one CEO position. No matter how many times you try to 'create' a CEO, you get the same person. Singleton ensures you always get the same instance.",
+      "code_example": "class JsonStore:\n    _instance = None\n    \n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n    \n    def load_data(self):\n        # Load JSON\n        pass\n\n# Both variables point to same instance\nstore1 = JsonStore()\nstore2 = JsonStore()\nprint(store1 is store2)  # True",
+      "project_usage": "In our project, we use JsonStore as a utility class with static methods, not a singleton. However, if we wanted to cache loaded data or maintain connection state, singleton could be useful."
+    },
+    {
+      "id": "expert_4",
+      "question": "What is the Strategy Pattern and how would you implement it?",
+      "short_answer": "Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it. Useful when you have multiple ways to perform a task.",
+      "detailed_explanation": "Strategy Pattern allows you to select an algorithm at runtime. Instead of hardcoding a single algorithm, you define a family of algorithms and make them interchangeable. The client code works with the strategy interface, not specific implementations.",
+      "analogy": "Think of payment methods. You can pay with credit card, PayPal, or cash. The payment process (strategy) is the same, but the implementation differs. You can switch strategies without changing the checkout code.",
+      "code_example": "class WithdrawStrategy:\n    def withdraw(self, account, amount):\n        pass\n\nclass NoOverdraftStrategy(WithdrawStrategy):\n    def withdraw(self, account, amount):\n        if amount > account.balance:\n            raise ValueError('Insufficient funds')\n        account.balance -= amount\n\nclass OverdraftStrategy(WithdrawStrategy):\n    def withdraw(self, account, amount):\n        if account.balance - amount < -500:\n            raise ValueError('Overdraft limit')\n        account.balance -= amount\n\nclass Account:\n    def __init__(self, strategy):\n        self.strategy = strategy\n        self.balance = 1000",
+      "project_usage": "In our project, we use inheritance (SavingsAccount vs CurrentAccount) for different withdrawal strategies. We could alternatively use Strategy Pattern with composition, passing different strategy objects."
+    },
+    {
+      "id": "expert_5",
+      "question": "What is the Decorator Pattern and how does it differ from Python decorators?",
+      "short_answer": "Decorator Pattern is a design pattern that allows behavior to be added to objects dynamically. Python decorators are a language feature that uses this pattern. The pattern wraps objects to add functionality without modifying their structure.",
+      "detailed_explanation": "Decorator Pattern attaches additional responsibilities to objects dynamically. Python's @decorator syntax is an implementation of this pattern. It allows you to wrap functions/classes to add functionality like logging, caching, or validation.",
+      "analogy": "Think of decorator pattern like gift wrapping. You have a gift (original object), and you wrap it in multiple layers (decorators) - each layer adds something (ribbon, bow, card) without changing the gift itself.",
+      "code_example": "def log_calls(func):\n    def wrapper(*args, **kwargs):\n        print(f'Calling {func.__name__}')\n        result = func(*args, **kwargs)\n        print(f'{func.__name__} completed')\n        return result\n    return wrapper\n\nclass Account:\n    @log_calls  # Decorator adds logging\n    def deposit(self, amount):\n        self.balance += amount\n\n# Pattern: Wraps deposit() to add logging without modifying deposit() itself",
+      "project_usage": "In our project, we could use decorators to add logging to deposit() and withdraw() methods, or to add validation, caching, or transaction management without modifying the core methods."
+    },
+    {
+      "id": "expert_6",
+      "question": "What is the difference between early binding and late binding?",
+      "short_answer": "Early binding (static binding) resolves method calls at compile time based on the variable's declared type. Late binding (dynamic binding) resolves method calls at runtime based on the object's actual type. Python uses late binding.",
+      "detailed_explanation": "Early binding means the method to call is determined when code is compiled. Late binding means it's determined at runtime when the method is actually called. Python's duck typing and polymorphism rely on late binding.",
+      "analogy": "Early binding: Like a restaurant with a fixed menu - you know exactly what you'll get when you order. Late binding: Like a chef's special - you know you'll get food, but the exact dish depends on what's available when you order.",
+      "code_example": "class Account:\n    def withdraw(self, amount):\n        print('Base withdraw')\n\nclass SavingsAccount(Account):\n    def withdraw(self, amount):\n        print('Savings withdraw')\n\n# Late binding - Python decides at runtime\naccount = SavingsAccount()  # Could be SavingsAccount or CurrentAccount\naccount.withdraw(100)  # Calls SavingsAccount.withdraw() based on actual type",
+      "project_usage": "In our project, when we call account.withdraw(100), Python uses late binding to determine which withdraw() method to call based on whether account is actually a SavingsAccount or CurrentAccount."
+    },
+    {
+      "id": "expert_7",
+      "question": "What is the Adapter Pattern and when would you use it?",
+      "short_answer": "Adapter Pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces, converting one interface into another that clients expect.",
+      "detailed_explanation": "Adapter Pattern makes classes work together that couldn't otherwise because of incompatible interfaces. It wraps an object to make it compatible with another interface. Useful when integrating third-party libraries or legacy code.",
+      "analogy": "Think of a power adapter. Your device needs a USB-C plug, but you only have a USB-A port. The adapter (Adapter Pattern) converts USB-A to USB-C, making them compatible.",
+      "code_example": "class LegacyAccount:\n    def add_money(self, amt):  # Old interface\n        pass\n\nclass ModernAccount:\n    def deposit(self, amount):  # New interface\n        pass\n\nclass AccountAdapter:\n    def __init__(self, legacy_account):\n        self.legacy = legacy_account\n    \n    def deposit(self, amount):  # Adapts to new interface\n        self.legacy.add_money(amount)  # Calls old interface",
+      "project_usage": "In our project, if we needed to integrate with an old banking system that uses different method names, we could use Adapter Pattern to make it compatible with our Account interface."
+    },
+    {
+      "id": "expert_8",
+      "question": "What is the difference between mixins and multiple inheritance?",
+      "short_answer": "Mixins are classes designed to be inherited alongside other classes to add functionality. Multiple inheritance allows a class to inherit from multiple parents. Mixins are a specific use case of multiple inheritance for adding features.",
+      "detailed_explanation": "Mixins are small, focused classes that provide specific functionality. They're meant to be combined with other classes through multiple inheritance. The key difference is intent - mixins add features, regular inheritance establishes 'is-a' relationships.",
+      "analogy": "Multiple inheritance: A person can be both a Student AND an Employee (two roles). Mixins: Like adding features - a 'Loggable' mixin adds logging to any class, a 'Serializable' mixin adds serialization. They're reusable feature additions.",
+      "code_example": "class LoggableMixin:\n    def log(self, message):\n        print(f'[{self.__class__.__name__}] {message}')\n\nclass SerializableMixin:\n    def to_dict(self):\n        return self.__dict__\n\nclass Account(LoggableMixin, SerializableMixin):  # Multiple inheritance with mixins\n    def __init__(self, balance):\n        self.balance = balance\n        self.log('Account created')  # From LoggableMixin\n\naccount = Account(1000)\naccount.log('Deposit made')  # Mixin functionality\nprint(account.to_dict())  # Mixin functionality",
+      "project_usage": "In our project, we could create mixins like LoggableMixin or ValidatableMixin that add logging or validation to Account classes without changing the core Account functionality."
+    },
+    {
+      "id": "expert_9",
+      "question": "What is the Command Pattern and how would you implement it?",
+      "short_answer": "Command Pattern encapsulates a request as an object, allowing you to parameterize clients with different requests, queue operations, and support undo operations. Useful for implementing undo/redo functionality.",
+      "detailed_explanation": "Command Pattern turns requests into objects. Each command object knows how to execute itself and can store state for undo. This allows you to queue commands, log them, or undo them. It decouples the object that invokes the operation from the one that performs it.",
+      "analogy": "Think of a remote control. Each button is a command object. You can press a button (execute), and the remote can remember the last command (undo). The remote doesn't need to know how the TV works, just that it can execute commands.",
+      "code_example": "class Command:\n    def execute(self):\n        pass\n    def undo(self):\n        pass\n\nclass DepositCommand(Command):\n    def __init__(self, account, amount):\n        self.account = account\n        self.amount = amount\n    \n    def execute(self):\n        self.account.deposit(self.amount)\n    \n    def undo(self):\n        self.account.withdraw(self.amount)\n\nclass CommandInvoker:\n    def __init__(self):\n        self.history = []\n    \n    def execute_command(self, command):\n        command.execute()\n        self.history.append(command)\n    \n    def undo_last(self):\n        if self.history:\n            self.history.pop().undo()",
+      "project_usage": "In our project, we could use Command Pattern to implement transaction undo functionality. Each deposit/withdraw would be a command that can be executed and undone, maintaining a history."
+    },
+    {
+      "id": "expert_10",
+      "question": "What is the difference between abstract classes and interfaces in Python?",
+      "short_answer": "Python doesn't have a separate 'interface' concept like Java. Abstract Base Classes (ABC) serve both purposes. ABCs can have both abstract methods (must be implemented) and concrete methods (can be inherited).",
+      "detailed_explanation": "In languages like Java, interfaces only define method signatures. In Python, ABCs can define both abstract methods (contract) and provide default implementations. Python's ABC module provides @abstractmethod decorator to enforce implementation.",
+      "analogy": "In Java: Interface is like a contract (just rules). Abstract class is like a partial blueprint (some rules, some implementation). In Python: ABC is like a flexible contract that can include both rules and default implementations.",
+      "code_example": "from abc import ABC, abstractmethod\n\nclass Account(ABC):  # Acts as both abstract class and interface\n    @abstractmethod\n    def withdraw(self, amount):  # Must be implemented (interface-like)\n        pass\n    \n    def deposit(self, amount):  # Concrete method (abstract class-like)\n        if amount > 0:\n            self._balance += amount\n\nclass SavingsAccount(Account):\n    def withdraw(self, amount):  # Must implement abstract method\n        if amount > self.balance:\n            raise ValueError('Insufficient funds')\n        self.balance -= amount",
+      "project_usage": "In our project, Account is an ABC that acts as both an abstract class (has concrete deposit() method) and an interface (defines abstract withdraw() contract that must be implemented)."
+    }
+  ]
+}

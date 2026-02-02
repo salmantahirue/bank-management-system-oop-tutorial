@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>The Problem Statement</h1>
+    <p class="lead">Understanding the real-world problem we're solving with Object-Oriented Programming.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>📋 The Real-World Scenario</h2>
+    <p>
+      Imagine you're a software developer at a startup bank. Your manager asks you to build a 
+      <strong>Bank Management System</strong> that allows customers to:
+    </p>
+    <ul class="scenario-list">
+      <li>Create accounts and register for online banking</li>
+      <li>Deposit money into their accounts</li>
+      <li>Withdraw money (with different rules for different account types)</li>
+      <li>View their transaction history</li>
+      <li>Check their current balance</li>
+    </ul>
+    <p>
+      The system must be <strong>reliable</strong> (data shouldn't disappear), <strong>secure</strong> 
+      (users must log in), and <strong>extensible</strong> (easy to add new features later).
+    </p>
+  </section>
+
+  <section class="card-section">
+    <h2>🎯 Why This Problem is Perfect for Learning OOP</h2>
+    <p>
+      This isn't just a coding exercise—it's a <strong>real-world problem</strong> that naturally 
+      requires OOP concepts:
+    </p>
+    <div class="why-oop-grid">
+      <div class="why-item">
+        <h4>1. Multiple Entity Types</h4>
+        <p>We have Users, Accounts, and Transactions—each is a distinct "thing" that needs its own class.</p>
+      </div>
+      <div class="why-item">
+        <h4>2. Different Account Behaviors</h4>
+        <p>Savings and Current accounts have different withdrawal rules—perfect for inheritance and polymorphism.</p>
+      </div>
+      <div class="why-item">
+        <h4>3. Data Protection</h4>
+        <p>Balance shouldn't be changed directly—encapsulation protects it.</p>
+      </div>
+      <div class="why-item">
+        <h4>4. Future Extensibility</h4>
+        <p>We might add "PremiumAccount" or "BusinessAccount" later—OOP makes this easy.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>📝 Detailed Requirements</h2>
+    
+    <div class="requirement-section">
+      <h3>1. User Management</h3>
+      <ul class="detailed-checklist">
+        <li>
+          <strong>Registration:</strong> Users can create an account with a username and password.
+          <ul>
+            <li>Username must be unique</li>
+            <li>Password must be at least 4 characters (for learning purposes)</li>
+            <li>Password should be hashed before storage</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Authentication:</strong> Users can log in with their credentials.
+          <ul>
+            <li>System validates username and password</li>
+            <li>Returns a session token (simplified for learning)</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="requirement-section">
+      <h3>2. Account Management</h3>
+      <ul class="detailed-checklist">
+        <li>
+          <strong>Account Creation:</strong> Each user gets one account when they register.
+          <ul>
+            <li>User chooses account type: Savings or Current</li>
+            <li>Initial balance is 0</li>
+            <li>Account ID is auto-generated</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Account Types:</strong>
+          <ul>
+            <li><strong>Savings Account:</strong> Cannot go below 0 (no overdraft)</li>
+            <li><strong>Current Account:</strong> Can go down to -500 (overdraft limit)</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Balance Inquiry:</strong> Users can check their current balance at any time.
+        </li>
+      </ul>
+    </div>
+
+    <div class="requirement-section">
+      <h3>3. Transaction Operations</h3>
+      <ul class="detailed-checklist">
+        <li>
+          <strong>Deposit:</strong>
+          <ul>
+            <li>Amount must be positive</li>
+            <li>Balance increases by the deposit amount</li>
+            <li>Transaction is recorded in history</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Withdraw:</strong>
+          <ul>
+            <li>Amount must be positive</li>
+            <li>Savings: Balance cannot go below 0</li>
+            <li>Current: Balance cannot go below -500</li>
+            <li>Transaction is recorded in history</li>
+            <li>Error if insufficient funds</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="requirement-section">
+      <h3>4. Transaction History</h3>
+      <ul class="detailed-checklist">
+        <li>Every deposit and withdrawal is recorded</li>
+        <li>Each transaction stores: timestamp, type (DEPOSIT/WITHDRAW), amount, optional note</li>
+        <li>Users can view their complete transaction history</li>
+        <li>Transactions are immutable (cannot be edited or deleted)</li>
+      </ul>
+    </div>
+
+    <div class="requirement-section">
+      <h3>5. Data Persistence</h3>
+      <ul class="detailed-checklist">
+        <li>All data is stored in a JSON file (<code>data/bank_data.json</code>)</li>
+        <li>No database required (simplified for learning)</li>
+        <li>Data persists across server restarts</li>
+        <li>File-based storage is easy to inspect and debug</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card-section highlight-box">
+    <h2>🧠 The "Intern" vs. "Architect" Mindset</h2>
+    <div class="comparison-grid">
+      <div class="bad-approach">
+        <h4>❌ The Beginner Way</h4>
+        <p>Write one big <code>main.py</code> file.</p>
+        <p>Use global variables for data.</p>
+        <p>Put logic inside <code>if/else</code> blocks.</p>
+      </div>
+      <div class="good-approach">
+        <h4>✅ The Architect Way</h4>
+        <p>Identify <strong>Entities</strong> (User, Account).</p>
+        <p>Define <strong>Responsibilities</strong> (Who handles login? Who handles storage?).</p>
+        <p>Use <strong>Classes</strong> to encapsulate data and behavior.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/design" class="btn btn-primary">See the Expert Design &rarr;</a>
+  </section>
+</div>
+{% endblock %}

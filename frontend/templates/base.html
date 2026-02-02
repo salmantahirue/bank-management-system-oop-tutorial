@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bank System | OOP Learning Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <!-- Google Fonts for better typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="layout">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <a href="/" class="brand brand-link">
+          <div class="logo-icon">🐍</div>
+          <div class="logo-text">
+            <span>Python OOP</span>
+            <small>Masterclass</small>
+          </div>
+        </a>
+
+        <nav class="nav-menu">
+          <p class="nav-header">LEARNING GUIDE</p>
+          <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+            <span class="icon">📚</span> Introduction
+          </a>
+          <a href="/learn/problem" class="nav-link {% if request.path == '/learn/problem' %}active{% endif %}">
+            <span class="icon">🎯</span> Problem Statement
+          </a>
+          <a href="/learn/design" class="nav-link {% if request.path == '/learn/design' %}active{% endif %}">
+            <span class="icon">🧠</span> Expert Design
+          </a>
+          <a href="/learn/oop" class="nav-link {% if request.path == '/learn/oop' %}active{% endif %}">
+            <span class="icon">🧩</span> OOP Concepts
+          </a>
+          <a href="/learn/interview" class="nav-link {% if '/learn/interview' in request.path %}active{% endif %}">
+            <span class="icon">🎤</span> Interview Prep
+          </a>
+          <a href="/learn/revision" class="nav-link {% if request.path == '/learn/revision' %}active{% endif %}">
+            <span class="icon">📚</span> Revision
+          </a>
+
+          <p class="nav-header">LIVE PROJECT</p>
+          <a href="/app/login" class="nav-link {% if '/app/' in request.path %}active{% endif %}">
+            <span class="icon">🏦</span> Bank App Demo
+          </a>
+        </nav>
+
+        <div class="nav-footer">
+          <small>Mentorship Edition v1.0</small>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <!-- Prism.js for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  </body>
+</html>
