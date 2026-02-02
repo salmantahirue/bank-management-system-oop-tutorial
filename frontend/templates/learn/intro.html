@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>Welcome to the Bank Management Project</h1>
+    <p class="lead">A complete, step-by-step journey to master Python OOP.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>Why This Project?</h2>
+    <p>
+      Most tutorials teach OOP concepts in isolation. "This is a class," "This is inheritance." 
+      But they rarely show <strong>how to put it all together</strong> into a real system.
+    </p>
+    <p>
+      In this project, we will build a fully functional Bank System from scratch. You will learn not just 
+      <em>syntax</em>, but <strong>Software Architecture</strong>.
+    </p>
+  </section>
+
+  <section class="card-section">
+    <div class="highlight-box">
+      <h3>🎓 Learning Approach</h3>
+      <p>
+        This is not just code—it's a <strong>complete learning journey</strong>. Each concept is explained 
+        with:
+      </p>
+      <ul>
+        <li>📖 Clear explanations and analogies</li>
+        <li>💻 Real code examples from the project</li>
+        <li>🗺️ Visual diagrams and mappings</li>
+        <li>🔍 Step-by-step implementation guides</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>What You'll Learn</h2>
+    <div class="learning-path">
+      <div class="path-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h4>Problem Analysis</h4>
+          <p>How to break down a real-world problem into classes and objects.</p>
+        </div>
+      </div>
+      <div class="path-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h4>OOP Concepts</h4>
+          <p>Encapsulation, Inheritance, Polymorphism, and Abstraction—with real examples.</p>
+        </div>
+      </div>
+      <div class="path-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h4>Architecture Design</h4>
+          <p>How to structure code into layers (Domain, Service, Storage, UI).</p>
+        </div>
+      </div>
+      <div class="path-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h4>Implementation</h4>
+          <p>Build a working system with file-based storage and a web interface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-2">
+    <div class="feature-card">
+      <div class="card-icon">🏗️</div>
+      <h3>Real Architecture</h3>
+      <p>Separate Domain, Service, Storage, and UI layers just like in production apps.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon">🔄</div>
+      <h3>Polymorphism</h3>
+      <p>See how <code>Savings</code> and <code>Current</code> accounts handle withdrawals differently.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon">💾</div>
+      <h3>File Storage</h3>
+      <p>Build a custom JSON database from scratch—no SQL required.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon">🚀</div>
+      <h3>Full Stack</h3>
+      <p>Connect your Python backend to a modern HTML/JS frontend.</p>
+    </div>
+  </section>
+
+  <section class="call-to-action">
+    <h3>Ready to start?</h3>
+    <p>First, understand the problem we are solving.</p>
+    <a href="/learn/problem" class="btn btn-primary">Go to Problem Statement &rarr;</a>
+  </section>
+</div>
+{% endblock %}

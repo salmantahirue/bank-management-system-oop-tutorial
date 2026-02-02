@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>👻 Abstraction</h1>
+    <p class="lead">Hiding complexity and defining a contract that subclasses must follow.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>What is Abstraction?</h2>
+    <p>
+      Abstraction focuses on what an object does rather than how it does it. In Python, we use 
+      <strong>Abstract Base Classes (ABC)</strong> to define a contract that subclasses must implement.
+    </p>
+    <div class="analogy-box">
+      <strong>Real-World Analogy:</strong> A "Vehicle" is an abstraction. You can't create a generic 
+      "Vehicle" object—you must create a specific type like "Car" or "Bike" that implements the vehicle's methods.
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Abstract Base Class in Our Project</h2>
+    <p>
+      The <code>Account</code> class is an <strong>Abstract Base Class</strong>. You cannot create an 
+      <code>Account</code> object directly—you must create a <code>SavingsAccount</code> or <code>CurrentAccount</code>.
+    </p>
+    
+    <div class="code-showcase">
+      <div class="code-file-header">
+        <span class="file-icon">📄</span>
+        <code>backend/domain/account.py</code>
+      </div>
+      <pre><code class="language-python">from abc import ABC, abstractmethod
+
+class Account(ABC):
+    """
+    Abstract Base Class: Cannot be instantiated directly.
+    It defines a CONTRACT that all account types must follow.
+    """
+    
+    def __init__(self, account_id: str, user_id: str, balance: int):
+        self.account_id = account_id
+        self.user_id = user_id
+        self._balance = balance
+    
+    def deposit(self, amount: int) -> int:
+        """Concrete method: shared by all subclasses"""
+        if amount <= 0:
+            raise ValidationError("Amount must be positive")
+        self._balance += amount
+        return self._balance
+    
+    @abstractmethod
+    def withdraw(self, amount: int) -> int:
+        """
+        Abstract method: MUST be implemented by subclasses.
+        This is the CONTRACT.
+        """
+        pass  # No implementation here!
+    
+    @property
+    @abstractmethod
+    def account_type(self) -> str:
+        """Abstract property: MUST be implemented by subclasses"""
+        pass</code></pre>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>What Happens If You Try to Create an Account?</h2>
+    <div class="error-demo">
+      <pre><code class="language-python"># ❌ This will FAIL:
+account = Account("acc-123", "user-456", 1000)
+# TypeError: Can't instantiate abstract class Account 
+# with abstract methods withdraw, account_type</code></pre>
+      <p><strong>Python enforces the contract:</strong> You must implement all abstract methods before you can create an instance.</p>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Why Use Abstraction?</h2>
+    <div class="abstraction-benefits">
+      <div class="benefit-item">
+        <h4>1. Enforces a Contract</h4>
+        <p>
+          By making <code>withdraw()</code> abstract, we guarantee that every account type 
+          <strong>must</strong> implement it. You can't forget to add withdrawal logic.
+        </p>
+      </div>
+      <div class="benefit-item">
+        <h4>2. Hides Implementation Details</h4>
+        <p>
+          Code that uses <code>Account</code> doesn't need to know if it's a Savings or Current account. 
+          It just calls <code>withdraw()</code> and trusts that the subclass handles it correctly.
+        </p>
+      </div>
+      <div class="benefit-item">
+        <h4>3. Prevents Invalid Objects</h4>
+        <p>
+          You can't accidentally create a generic "Account" that doesn't have withdrawal rules. 
+          You must choose a specific type.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Abstract vs Concrete Methods</h2>
+    <table class="concept-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Method</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Concrete</strong></td>
+          <td><code>deposit()</code></td>
+          <td>Has implementation. All subclasses inherit it as-is.</td>
+        </tr>
+        <tr>
+          <td><strong>Abstract</strong></td>
+          <td><code>withdraw()</code></td>
+          <td>No implementation. Subclasses MUST provide their own.</td>
+        </tr>
+        <tr>
+          <td><strong>Abstract</strong></td>
+          <td><code>account_type</code></td>
+          <td>No implementation. Subclasses MUST return "savings" or "current".</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card-section">
+    <h2>How Subclasses Implement the Contract</h2>
+    <div class="implementation-example">
+      <div class="impl-box">
+        <h4>SavingsAccount Implementation</h4>
+        <pre><code class="language-python">class SavingsAccount(Account):
+    def withdraw(self, amount: int) -> int:
+        # ✅ Implements abstract method
+        if amount > self._balance:
+            raise InsufficientFundsError(...)
+        self._balance -= amount
+        return self._balance
+    
+    @property
+    def account_type(self) -> str:
+        # ✅ Implements abstract property
+        return "savings"</code></pre>
+      </div>
+      <div class="impl-box">
+        <h4>CurrentAccount Implementation</h4>
+        <pre><code class="language-python">class CurrentAccount(Account):
+    def withdraw(self, amount: int) -> int:
+        # ✅ Implements abstract method (differently!)
+        new_balance = self._balance - amount
+        if new_balance < -self.OVERDRAFT_LIMIT:
+            raise InsufficientFundsError(...)
+        self._balance = new_balance
+        return self._balance
+    
+    @property
+    def account_type(self) -> str:
+        # ✅ Implements abstract property
+        return "current"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section highlight-box">
+    <h2>🎯 Key Takeaway</h2>
+    <p>
+      Abstraction defines <strong>what</strong> must be done (the contract) without specifying 
+      <strong>how</strong> it's done (the implementation). This:
+    </p>
+    <ul class="checklist">
+      <li>✅ Ensures all account types follow the same interface</li>
+      <li>✅ Prevents creating incomplete or invalid objects</li>
+      <li>✅ Makes the code more maintainable and predictable</li>
+    </ul>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/oop" class="btn btn-secondary">← Back to OOP Concepts</a>
+    <a href="/learn/design" class="btn btn-primary">View Architecture →</a>
+  </section>
+</div>
+{% endblock %}

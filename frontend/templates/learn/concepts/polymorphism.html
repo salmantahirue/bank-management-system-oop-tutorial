@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>🎭 Polymorphism</h1>
+    <p class="lead">Same interface, different behavior based on the object's type.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>What is Polymorphism?</h2>
+    <p>
+      Polymorphism means "many forms." In OOP, it allows objects of different classes to be treated 
+      through the same interface, but each class implements the behavior differently.
+    </p>
+    <div class="analogy-box">
+      <strong>Real-World Analogy:</strong> Both a car and a bicycle have a "move()" method, but they 
+      move differently. You can call <code>vehicle.move()</code> without knowing if it's a car or bicycle.
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Polymorphism in Our Bank System</h2>
+    <p>
+      Both <code>SavingsAccount</code> and <code>CurrentAccount</code> have a <code>withdraw()</code> method, 
+      but they implement it differently:
+    </p>
+    
+    <div class="polymorphism-demo">
+      <div class="demo-code">
+        <h3>SavingsAccount.withdraw()</h3>
+        <div class="code-file-header">
+          <span class="file-icon">📄</span>
+          <code>backend/domain/savings_account.py</code>
+        </div>
+        <pre><code class="language-python">def withdraw(self, amount: int) -> int:
+    self._require_positive_amount(amount)
+    
+    # ❌ NO OVERDRAFT: balance must stay ≥ 0
+    if amount > self._balance:
+        raise InsufficientFundsError(
+            "Savings account cannot go below 0."
+        )
+    
+    self._balance -= amount
+    return self._balance</code></pre>
+      </div>
+
+      <div class="demo-code">
+        <h3>CurrentAccount.withdraw()</h3>
+        <div class="code-file-header">
+          <span class="file-icon">📄</span>
+          <code>backend/domain/current_account.py</code>
+        </div>
+        <pre><code class="language-python">def withdraw(self, amount: int) -> int:
+    self._require_positive_amount(amount)
+    
+    # ✅ OVERDRAFT ALLOWED: balance can go to -500
+    new_balance = self._balance - amount
+    if new_balance < -self.OVERDRAFT_LIMIT:
+        raise InsufficientFundsError(
+            "Overdraft limit exceeded."
+        )
+    
+    self._balance = new_balance
+    return self._balance</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Polymorphism in Action: Service Layer</h2>
+    <p>Look how the <code>AccountService</code> uses polymorphism without knowing the account type:</p>
+    
+    <div class="code-showcase">
+      <div class="code-file-header">
+        <span class="file-icon">📄</span>
+        <code>backend/services/account_service.py</code>
+      </div>
+      <pre><code class="language-python">def withdraw(self, user_id: str, amount: int) -> int:
+    account = self._get_account(user_id)
+    
+    # 🎭 POLYMORPHISM: This works for BOTH SavingsAccount and CurrentAccount!
+    # Python automatically calls the correct withdraw() method
+    new_balance = account.withdraw(amount)
+    
+    # The service doesn't need to know if it's Savings or Current!
+    # Each account type handles its own rules.
+    
+    self.account_repo.save(account)
+    return new_balance</code></pre>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Visual Example: Same Call, Different Behavior</h2>
+    <div class="polymorphism-visual">
+      <div class="visual-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <code>account = SavingsAccount(...)</code>
+          <code>account.withdraw(100)</code>
+          <div class="result">→ Checks: balance ≥ 0</div>
+        </div>
+      </div>
+      <div class="visual-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <code>account = CurrentAccount(...)</code>
+          <code>account.withdraw(100)</code>
+          <div class="result">→ Checks: balance ≥ -500</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Why Polymorphism is Powerful</h2>
+    <div class="comparison-grid">
+      <div class="bad-approach">
+        <h4>❌ Without Polymorphism</h4>
+        <pre><code class="language-python">def withdraw(self, account, amount):
+    if account.type == "savings":
+        # Savings logic here
+    elif account.type == "current":
+        # Current logic here
+    # 😰 What if we add a new account type?
+    # We have to modify THIS code!</code></pre>
+        <p><strong>Problem:</strong> Tightly coupled, hard to extend.</p>
+      </div>
+      <div class="good-approach">
+        <h4>✅ With Polymorphism</h4>
+        <pre><code class="language-python">def withdraw(self, account, amount):
+    # 🎯 Just call withdraw() - each class handles itself!
+    return account.withdraw(amount)
+    # ✅ Adding a new account type? 
+    # Just create the class, no changes here!</code></pre>
+        <p><strong>Benefit:</strong> Loose coupling, easy to extend.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section highlight-box">
+    <h2>🎯 Key Takeaway</h2>
+    <p>
+      Polymorphism lets you write code that works with the <strong>interface</strong> (the method name) 
+      rather than the <strong>implementation</strong> (the specific class). This makes your code:
+    </p>
+    <ul class="checklist">
+      <li>✅ More flexible (easy to add new account types)</li>
+      <li>✅ More maintainable (changes are isolated to one class)</li>
+      <li>✅ More readable (the intent is clear: "withdraw money")</li>
+    </ul>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/oop" class="btn btn-secondary">← Back to OOP Concepts</a>
+    <a href="/learn/oop/abstraction" class="btn btn-primary">Next: Abstraction →</a>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>OOP Assessment Test</h1>
+    <p class="lead">Test your understanding of Python OOP concepts with multiple-choice questions.</p>
+  </header>
+
+  <div id="assessmentContainer">
+    <!-- Level Selection Screen -->
+    <div id="levelScreen" class="card-section">
+      <h2>Select Your Experience Level</h2>
+      <p>Choose your level to get questions tailored to your knowledge:</p>
+      <div class="level-selection-grid">
+        <div class="level-card" data-level="interns">
+          <div class="level-icon">🎓</div>
+          <h3>Interns</h3>
+          <p>Just starting with Python OOP</p>
+          <p class="level-desc">Mix of Easy & Medium questions</p>
+        </div>
+        <div class="level-card" data-level="beginner">
+          <div class="level-icon">🌱</div>
+          <h3>Beginner</h3>
+          <p>Learning the basics</p>
+          <p class="level-desc">Mix of Easy & Medium questions</p>
+        </div>
+        <div class="level-card" data-level="intermediate">
+          <div class="level-icon">⚡</div>
+          <h3>Intermediate</h3>
+          <p>Comfortable with OOP concepts</p>
+          <p class="level-desc">Mix of Medium & Hard questions</p>
+        </div>
+        <div class="level-card" data-level="expert">
+          <div class="level-icon">🚀</div>
+          <h3>Expert</h3>
+          <p>Advanced OOP and design patterns</p>
+          <p class="level-desc">Mix of Hard & Expert questions</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="card-section" style="display: none;">
+      <h2>Ready to Test Your Knowledge?</h2>
+      <p>This assessment will test your understanding of Object-Oriented Programming concepts.</p>
+      <div class="assessment-info">
+        <p><strong>Number of Questions:</strong> <span id="questionCount">10</span> (randomly selected)</p>
+        <p><strong>Time:</strong> No time limit</p>
+        <p><strong>Passing Score:</strong> 60%</p>
+        <p><strong>Your Level:</strong> <span id="selectedLevel"></span></p>
+      </div>
+      <button id="startBtn" class="btn btn-primary btn-lg">Start Assessment</button>
+    </div>
+
+    <!-- Test Screen -->
+    <div id="testScreen" style="display: none;">
+      <div class="test-header">
+        <div class="progress-container">
+          <div class="progress-info">
+            <span id="progressText">Answered: 0 of 10</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="questionsList"></div>
+
+      <div class="test-actions">
+        <button id="submitBtn" class="btn btn-primary btn-lg">Submit Answers</button>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="resultsScreen" style="display: none;">
+      <div class="results-header">
+        <h2>Assessment Results</h2>
+        <div id="scoreDisplay" class="score-display"></div>
+      </div>
+
+      <div id="resultsDetails"></div>
+
+      <div class="test-actions">
+        <button id="retakeBtn" class="btn btn-primary">Retake Assessment</button>
+        <a href="/learn/interview" class="btn btn-secondary">Back to Interview Prep</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Completion Modal -->
+<div id="completionModal" class="modal" style="display: none;">
+  <div class="modal-content modal-completion">
+    <div id="modalContent"></div>
+    <button id="closeModal" class="btn btn-primary">Continue</button>
+  </div>
+</div>
+
+<script>
+let questions = [];
+let userAnswers = {};
+let selectedLevel = 'beginner';
+let questionCount = 10;
+
+// Level selection
+document.querySelectorAll('.level-card').forEach(card => {
+  card.addEventListener('click', () => {
+    selectedLevel = card.dataset.level;
+    document.getElementById('selectedLevel').textContent = card.querySelector('h3').textContent;
+    document.getElementById('levelScreen').style.display = 'none';
+    document.getElementById('startScreen').style.display = 'block';
+    
+    // Update question count based on level
+    questionCount = 10;
+    document.getElementById('questionCount').textContent = questionCount;
+  });
+});
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  loadQuestions();
+});
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  submitAssessment();
+});
+
+document.getElementById('retakeBtn').addEventListener('click', () => {
+  location.reload();
+});
+
+document.getElementById('closeModal').addEventListener('click', () => {
+  document.getElementById('completionModal').style.display = 'none';
+});
+
+function loadQuestions() {
+  fetch(`/api/assessment/questions?count=${questionCount}&level=${selectedLevel}`)
+    .then(res => res.json())
+    .then(data => {
+      questions = data.questions;
+      questionCount = data.total;
+      displayQuestions();
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('testScreen').style.display = 'block';
+    })
+    .catch(err => {
+      alert('Error loading questions. Please try again.');
+    });
+}
+
+function displayQuestions() {
+  const container = document.getElementById('questionsList');
+  container.innerHTML = '';
+  
+  questions.forEach((q, index) => {
+    const questionCard = document.createElement('div');
+    questionCard.className = 'question-card assessment-question';
+    questionCard.innerHTML = `
+      <div class="question-header">
+        <span class="question-number">Q${index + 1}</span>
+        <div class="question-content">
+          <h3>${q.question}</h3>
+          <span class="difficulty-badge ${q.difficulty}">${q.difficulty.toUpperCase()}</span>
+        </div>
+      </div>
+      <div class="options-list">
+        ${q.options.map((option, optIndex) => `
+          <label class="option-item">
+            <input type="radio" name="q_${q.id}" value="${optIndex}" />
+            <span class="option-text">${option}</span>
+          </label>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(questionCard);
+  });
+  
+  updateProgress();
+}
+
+function updateProgress() {
+  // Collect answers from radio buttons
+  questions.forEach(q => {
+    const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
+    if (selected) {
+      userAnswers[q.id] = parseInt(selected.value);
+    }
+  });
+  
+  const answered = Object.keys(userAnswers).length;
+  const total = questions.length;
+  const percentage = (answered / total) * 100;
+  
+  document.getElementById('progressFill').style.width = `${percentage}%`;
+  document.getElementById('progressText').textContent = `Answered: ${answered} of ${total}`;
+  document.getElementById('progressPercent').textContent = `${Math.round(percentage)}%`;
+}
+
+// Update progress as user selects answers
+document.addEventListener('change', (e) => {
+  if (e.target.type === 'radio') {
+    updateProgress();
+  }
+});
+
+function submitAssessment() {
+  // Collect all answers
+  questions.forEach(q => {
+    const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
+    if (selected) {
+      userAnswers[q.id] = parseInt(selected.value);
+    }
+  });
+  
+  if (Object.keys(userAnswers).length < questions.length) {
+    if (!confirm('You have not answered all questions. Submit anyway?')) {
+      return;
+    }
+  }
+  
+  fetch('/api/assessment/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ answers: userAnswers })
+  })
+    .then(res => res.json())
+    .then(data => {
+      showCompletionModal(data);
+      displayResults(data);
+    })
+    .catch(err => {
+      alert('Error submitting assessment. Please try again.');
+    });
+}
+
+function showCompletionModal(data) {
+  const modal = document.getElementById('completionModal');
+  const modalContent = document.getElementById('modalContent');
+  const passed = data.percentage >= 60;
+  
+  if (passed) {
+    modalContent.innerHTML = `
+      <div class="completion-success">
+        <div class="completion-icon">🎉</div>
+        <h2>Congratulations!</h2>
+        <p class="completion-message">You passed the assessment!</p>
+        <div class="completion-score">
+          <div class="score-big">${data.percentage}%</div>
+          <p>You got ${data.score} out of ${data.total} questions correct.</p>
+          <p class="grade-badge">${data.grade}</p>
+        </div>
+        <p class="completion-encourage">Great job! Keep learning and practicing.</p>
+      </div>
+    `;
+  } else {
+    modalContent.innerHTML = `
+      <div class="completion-fail">
+        <div class="completion-icon">📚</div>
+        <h2>Keep Learning!</h2>
+        <p class="completion-message">You didn't pass this time, but don't give up!</p>
+        <div class="completion-score">
+          <div class="score-big">${data.percentage}%</div>
+          <p>You got ${data.score} out of ${data.total} questions correct.</p>
+          <p class="grade-badge">${data.grade}</p>
+        </div>
+        <p class="completion-encourage">Review the concepts and try again. You can do it!</p>
+        <p class="retry-suggestion">💡 Tip: Review the OOP concepts in the learning section before retaking.</p>
+      </div>
+    `;
+  }
+  
+  modal.style.display = 'flex';
+}
+
+function displayResults(data) {
+  document.getElementById('testScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'block';
+  
+  // Score display
+  const scoreDiv = document.getElementById('scoreDisplay');
+  const passed = data.percentage >= 60;
+  scoreDiv.innerHTML = `
+    <div class="score-circle ${passed ? 'passed' : 'failed'}">
+      <div class="score-value">${data.percentage}%</div>
+      <div class="score-label">${data.grade}</div>
+    </div>
+    <p class="score-details">You got ${data.score} out of ${data.total} questions correct.</p>
+  `;
+  
+  // Detailed results
+  const detailsDiv = document.getElementById('resultsDetails');
+  detailsDiv.innerHTML = '<h3>Question Review</h3>';
+  
+  data.results.forEach((result, index) => {
+    const resultCard = document.createElement('div');
+    resultCard.className = `result-card ${result.is_correct ? 'correct' : 'incorrect'}`;
+    resultCard.innerHTML = `
+      <div class="result-header">
+        <span class="result-icon">${result.is_correct ? '✅' : '❌'}</span>
+        <strong>Question ${index + 1}:</strong> ${result.question}
+      </div>
+      <div class="result-details">
+        <p><strong>Your Answer:</strong> Option ${result.user_answer + 1} - ${questions[index].options[result.user_answer]}</p>
+        <p><strong>Correct Answer:</strong> Option ${result.correct_answer + 1} - ${questions[index].options[result.correct_answer]}</p>
+        <p><strong>Explanation:</strong> ${result.explanation}</p>
+        <p><strong>Difficulty:</strong> <span class="difficulty-badge ${result.difficulty}">${result.difficulty.toUpperCase()}</span></p>
+      </div>
+    `;
+    detailsDiv.appendChild(resultCard);
+  });
+}
+</script>
+{% endblock %}

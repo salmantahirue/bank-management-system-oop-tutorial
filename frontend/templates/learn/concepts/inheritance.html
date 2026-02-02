@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>🧬 Inheritance</h1>
+    <p class="lead">Reusing code by creating new classes based on existing ones.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>What is Inheritance?</h2>
+    <p>
+      Inheritance allows a class (child/subclass) to inherit attributes and methods from another class 
+      (parent/superclass). This promotes code reuse and establishes an "is-a" relationship.
+    </p>
+    <div class="analogy-box">
+      <strong>Real-World Analogy:</strong> A <code>SavingsAccount</code> IS AN <code>Account</code>. 
+      It has all the properties of an account (balance, account_id) plus its own specific rules.
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Our Inheritance Hierarchy</h2>
+    <div class="inheritance-tree">
+      <div class="parent-class">
+        <code>Account</code> (Parent/Base Class)
+        <div class="inherits-from">▼ Inherited by</div>
+      </div>
+      <div class="child-classes">
+        <div class="child-class">
+          <code>SavingsAccount</code>
+          <small>Inherits: account_id, user_id, _balance, deposit()</small>
+        </div>
+        <div class="child-class">
+          <code>CurrentAccount</code>
+          <small>Inherits: account_id, user_id, _balance, deposit()</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Code Example: SavingsAccount Inherits from Account</h2>
+    
+    <div class="code-showcase">
+      <div class="code-file-header">
+        <span class="file-icon">📄</span>
+        <code>backend/domain/savings_account.py</code>
+      </div>
+      <pre><code class="language-python">from backend.domain.account import Account
+
+class SavingsAccount(Account):
+    """
+    SavingsAccount inherits from Account.
+    It automatically gets:
+    - account_id, user_id, _balance (from __init__)
+    - deposit() method
+    - balance property
+    """
+    
+    @property
+    def account_type(self) -> str:
+        return "savings"
+    
+    def withdraw(self, amount: int) -> int:
+        # ✅ Can use parent's helper methods
+        self._require_positive_amount(amount)
+        
+        # Savings-specific logic: no overdraft
+        if amount > self._balance:
+            raise InsufficientFundsError(
+                "Savings account cannot go below 0."
+            )
+        
+        # ✅ Can access parent's protected attribute
+        self._balance -= amount
+        return self._balance</code></pre>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>What Gets Inherited?</h2>
+    <div class="inheritance-details">
+      <div class="inherited-item">
+        <strong>✅ Inherited Attributes:</strong>
+        <ul>
+          <li><code>account_id</code> - Set in parent's <code>__init__</code></li>
+          <li><code>user_id</code> - Set in parent's <code>__init__</code></li>
+          <li><code>_balance</code> - Protected, accessible to subclasses</li>
+        </ul>
+      </div>
+      <div class="inherited-item">
+        <strong>✅ Inherited Methods:</strong>
+        <ul>
+          <li><code>deposit()</code> - Works as-is, no need to rewrite</li>
+          <li><code>balance</code> property - Read-only access</li>
+          <li><code>_require_positive_amount()</code> - Helper method</li>
+        </ul>
+      </div>
+      <div class="inherited-item">
+        <strong>🔄 Overridden Methods:</strong>
+        <ul>
+          <li><code>withdraw()</code> - Each subclass implements differently</li>
+          <li><code>account_type</code> - Returns "savings" or "current"</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Benefits of Inheritance</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card">
+        <h4>📦 Code Reuse</h4>
+        <p>We don't duplicate <code>deposit()</code> logic in both <code>SavingsAccount</code> and <code>CurrentAccount</code>.</p>
+      </div>
+      <div class="benefit-card">
+        <h4>🔧 Easy Maintenance</h4>
+        <p>If we change <code>deposit()</code> in <code>Account</code>, both subclasses automatically get the update.</p>
+      </div>
+      <div class="benefit-card">
+        <h4>🎯 Consistency</h4>
+        <p>All account types share the same interface, making the code predictable.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section highlight-box">
+    <h2>🎯 Key Takeaway</h2>
+    <p>
+      Inheritance lets us write common code once in the parent class and reuse it in child classes. 
+      This follows the <strong>DRY (Don't Repeat Yourself)</strong> principle.
+    </p>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/oop" class="btn btn-secondary">← Back to OOP Concepts</a>
+    <a href="/learn/oop/polymorphism" class="btn btn-primary">Next: Polymorphism →</a>
+  </section>
+</div>
+{% endblock %}

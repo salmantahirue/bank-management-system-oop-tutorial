@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>🔒 Encapsulation</h1>
+    <p class="lead">Hiding internal state and controlling access through methods.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>What is Encapsulation?</h2>
+    <p>
+      Encapsulation is the practice of hiding internal details of a class and providing controlled access 
+      through public methods. In Python, we use naming conventions and properties to achieve this.
+    </p>
+    <div class="analogy-box">
+      <strong>Real-World Analogy:</strong> Think of a car. You don't directly access the engine's internal 
+      components. Instead, you use the steering wheel, pedals, and buttons (public interface) to control it.
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Where We Use It: The Account Class</h2>
+    <p>In our <code>Account</code> class, we protect the balance from direct modification:</p>
+    
+    <div class="code-showcase">
+      <div class="code-file-header">
+        <span class="file-icon">📄</span>
+        <code>backend/domain/account.py</code>
+      </div>
+      <pre><code class="language-python">class Account(ABC):
+    def __init__(self, account_id: str, user_id: str, balance: int):
+        self.account_id = account_id
+        self.user_id = user_id
+        # ⚠️ Protected attribute: starts with underscore
+        self._balance = balance  # Cannot be accessed directly from outside
+    
+    @property
+    def balance(self) -> int:
+        """Read-only access to balance"""
+        return self._balance
+    
+    def deposit(self, amount: int) -> int:
+        """✅ Controlled way to modify balance"""
+        if amount <= 0:
+            raise ValidationError("Amount must be positive")
+        self._balance += amount
+        return self._balance</code></pre>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Why Use Encapsulation Here?</h2>
+    <div class="comparison-grid">
+      <div class="bad-approach">
+        <h4>❌ Without Encapsulation</h4>
+        <pre><code class="language-python"># Anyone can do this:
+account.balance = -1000  # 💥 Negative balance!
+account.balance = "invalid"  # 💥 Wrong type!
+account.balance += 1000000  # 💥 No validation!</code></pre>
+        <p><strong>Problem:</strong> No validation, no control, easy to break the system.</p>
+      </div>
+      <div class="good-approach">
+        <h4>✅ With Encapsulation</h4>
+        <pre><code class="language-python"># Must use methods:
+account.deposit(100)  # ✅ Validated
+account.withdraw(50)  # ✅ Validated
+balance = account.balance  # ✅ Read-only access</code></pre>
+        <p><strong>Benefit:</strong> All changes go through validation. Balance stays consistent.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Python Naming Conventions</h2>
+    <table class="concept-table">
+      <thead>
+        <tr>
+          <th>Naming</th>
+          <th>Meaning</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>balance</code></td>
+          <td>Public attribute</td>
+          <td>Anyone can read/write</td>
+        </tr>
+        <tr>
+          <td><code>_balance</code></td>
+          <td>Protected attribute</td>
+          <td>Convention: "Don't access directly"</td>
+        </tr>
+        <tr>
+          <td><code>__balance</code></td>
+          <td>Private attribute</td>
+          <td>Name mangling (rarely used)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card-section highlight-box">
+    <h2>🎯 Key Takeaway</h2>
+    <p>
+      Encapsulation protects your data integrity. By forcing all balance changes through <code>deposit()</code> 
+      and <code>withdraw()</code>, we ensure:
+    </p>
+    <ul class="checklist">
+      <li>✅ Amounts are always validated (positive, sufficient funds)</li>
+      <li>✅ Business rules are enforced (no negative balance for savings)</li>
+      <li>✅ Future changes are easier (modify one method, not everywhere)</li>
+    </ul>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/oop" class="btn btn-secondary">← Back to OOP Concepts</a>
+    <a href="/learn/oop/inheritance" class="btn btn-primary">Next: Inheritance →</a>
+  </section>
+</div>
+{% endblock %}
