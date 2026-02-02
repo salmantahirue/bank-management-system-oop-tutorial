@@ -1,0 +1,1304 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "question": "What is the primary purpose of the __init__ method in a Python class?",
+      "options": [
+        "To destroy the object",
+        "To initialize object attributes when the object is created",
+        "To define class variables",
+        "To create a new class"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "__init__ is a constructor method that automatically runs when you create an object. It initializes the object's attributes with initial values."
+    },
+    {
+      "id": "q2",
+      "question": "In our Bank Management System, why is the Account class an abstract base class?",
+      "options": [
+        "To make it faster",
+        "To prevent direct instantiation and enforce that subclasses implement required methods",
+        "To reduce memory usage",
+        "To make it easier to read"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "Abstract base classes enforce a contract. You cannot create a generic Account object - you must create a specific type (SavingsAccount or CurrentAccount) that implements all abstract methods."
+    },
+    {
+      "id": "q3",
+      "question": "What does encapsulation achieve in our Account class?",
+      "options": [
+        "Makes the code run faster",
+        "Protects balance from direct modification and ensures validation through methods",
+        "Reduces code size",
+        "Makes inheritance easier"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "Encapsulation protects _balance by making it a protected attribute. You cannot directly set account._balance = -1000. You must use deposit() or withdraw() methods which validate the operation."
+    },
+    {
+      "id": "q4",
+      "question": "What is the relationship between SavingsAccount and Account?",
+      "options": [
+        "Composition (has-a)",
+        "Inheritance (is-a)",
+        "Association",
+        "Aggregation"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "SavingsAccount inherits from Account. This is an 'is-a' relationship - a SavingsAccount IS AN Account. It gets all Account's attributes and methods."
+    },
+    {
+      "id": "q5",
+      "question": "In Python, what does a single underscore prefix (_balance) indicate?",
+      "options": [
+        "It's a private variable that cannot be accessed",
+        "It's a protected variable - a convention indicating 'don't access directly'",
+        "It's a public variable",
+        "It's a constant"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "Single underscore is a naming convention in Python indicating a protected attribute. It's not enforced by Python but signals to other developers that this should not be accessed directly from outside the class."
+    },
+    {
+      "id": "q6",
+      "question": "What is polymorphism demonstrated in our Bank System?",
+      "options": [
+        "Both SavingsAccount and CurrentAccount have the same balance",
+        "Both account types have withdraw() method but implement it differently",
+        "Both accounts use the same file for storage",
+        "Both accounts have the same account_id format"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Polymorphism means 'many forms'. Both SavingsAccount and CurrentAccount have withdraw() method, but SavingsAccount prevents negative balance while CurrentAccount allows overdraft up to -500. Same method name, different behavior."
+    },
+    {
+      "id": "q7",
+      "question": "Why do we use the Repository Pattern in our storage layer?",
+      "options": [
+        "To make code run faster",
+        "To separate data access logic from business logic, making code testable and flexible",
+        "To reduce memory usage",
+        "To make inheritance easier"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Repository Pattern abstracts data access. Business logic (services) doesn't know about JSON files. This makes code testable (can mock repositories) and flexible (can switch storage without changing business logic)."
+    },
+    {
+      "id": "q8",
+      "question": "What happens if you try to create an Account object directly (not SavingsAccount or CurrentAccount)?",
+      "options": [
+        "It works fine",
+        "Python raises a TypeError because Account is abstract",
+        "It creates an empty object",
+        "It automatically creates a SavingsAccount"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Since Account is an abstract base class with abstract methods (withdraw, account_type), Python prevents you from creating an Account instance. You must create a concrete subclass that implements all abstract methods."
+    },
+    {
+      "id": "q9",
+      "question": "In our project, what is the relationship between AccountService and AccountRepository?",
+      "options": [
+        "Inheritance (AccountService inherits from AccountRepository)",
+        "Composition (AccountService uses/has AccountRepository)",
+        "Association",
+        "They are the same class"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "This is composition - a 'has-a' relationship. AccountService has/uses AccountRepository. The service doesn't inherit from the repository, it uses it to access data. This is looser coupling than inheritance."
+    },
+    {
+      "id": "q10",
+      "question": "What is the benefit of making Transaction a dataclass with frozen=True?",
+      "options": [
+        "It makes transactions faster to process",
+        "It makes Transaction immutable, preventing accidental modification of transaction records",
+        "It reduces memory usage",
+        "It makes inheritance easier"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "frozen=True makes Transaction immutable. Once created, a transaction cannot be modified. This is important for audit trails - transaction history should never be changed after creation."
+    },
+    {
+      "id": "q11",
+      "question": "Which SOLID principle does our AccountRepository class demonstrate?",
+      "options": [
+        "Single Responsibility Principle - it only handles account storage",
+        "Open/Closed Principle",
+        "Liskov Substitution Principle",
+        "Interface Segregation Principle"
+      ],
+      "correct_answer": 0,
+      "difficulty": "hard",
+      "explanation": "Single Responsibility Principle states a class should have only one reason to change. AccountRepository only handles account persistence - it doesn't validate business rules or handle authentication. That's the service layer's job."
+    },
+    {
+      "id": "q12",
+      "question": "How does our project demonstrate the Open/Closed Principle?",
+      "options": [
+        "We can add new account types (like PremiumAccount) without modifying the Account class",
+        "We use JSON files",
+        "We have separate files for each class",
+        "We use abstract methods"
+      ],
+      "correct_answer": 0,
+      "difficulty": "hard",
+      "explanation": "Open/Closed Principle: Open for extension, closed for modification. We can create new account types (PremiumAccount, BusinessAccount) by inheriting from Account without changing the Account class itself. The Account class is closed for modification but open for extension."
+    },
+    {
+      "id": "q13",
+      "question": "What is the Liskov Substitution Principle, and how does our project follow it?",
+      "options": [
+        "Subclasses must be substitutable for their base class without breaking functionality",
+        "All classes must have the same methods",
+        "Inheritance must always be used",
+        "All methods must be abstract"
+      ],
+      "correct_answer": 0,
+      "difficulty": "hard",
+      "explanation": "Liskov Substitution Principle means any subclass should be able to replace its parent class without breaking the code. In our project, you can use SavingsAccount or CurrentAccount anywhere an Account is expected, and the code will work correctly."
+    },
+    {
+      "id": "q14",
+      "question": "Why do we use @property decorator for the balance attribute in Account class?",
+      "options": [
+        "To make it run faster",
+        "To provide read-only access to _balance while keeping it protected",
+        "To make it a class variable",
+        "To enable inheritance"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "@property creates a read-only property. Users can access account.balance to read the value, but _balance remains protected. This provides controlled access while maintaining encapsulation."
+    },
+    {
+      "id": "q15",
+      "question": "What is the difference between instance method, class method, and static method?",
+      "options": [
+        "Instance methods use 'self', class methods use 'cls', static methods use neither",
+        "They are all the same",
+        "Only instance methods can access attributes",
+        "Class methods are faster"
+      ],
+      "correct_answer": 0,
+      "difficulty": "hard",
+      "explanation": "Instance methods (use self) work with instance data. Class methods (use cls, @classmethod) work with the class itself. Static methods (@staticmethod) are utility functions that don't need instance or class data."
+    },
+    {
+      "id": "q16",
+      "question": "In our project, what design pattern does the storage layer implement?",
+      "options": [
+        "Singleton Pattern",
+        "Repository Pattern",
+        "Factory Pattern",
+        "Observer Pattern"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Repository Pattern abstracts data access. Our AccountRepository, UserRepository, and TransactionRepository provide a clean interface for data operations, hiding the complexity of JSON file handling from business logic."
+    },
+    {
+      "id": "q17",
+      "question": "How would you test the AccountService class without actually writing to the JSON file?",
+      "options": [
+        "You cannot test it",
+        "Use mocking to create a fake AccountRepository that returns test data",
+        "Always use the real JSON file",
+        "Skip testing services"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "By using dependency injection and the Repository Pattern, we can mock the AccountRepository in tests. The service depends on the repository abstraction, so we can provide a fake repository that doesn't touch files."
+    },
+    {
+      "id": "q18",
+      "question": "What is the benefit of using composition (AccountService has repositories) over inheritance?",
+      "options": [
+        "Composition provides looser coupling and more flexibility",
+        "Inheritance is always better",
+        "Composition is faster",
+        "There is no difference"
+      ],
+      "correct_answer": 0,
+      "difficulty": "expert",
+      "explanation": "Composition provides looser coupling. AccountService can work with any repository implementation. If we wanted to switch from JSON to a database, we'd only change the repository, not the service. Inheritance would create tighter coupling."
+    },
+    {
+      "id": "q19",
+      "question": "Why do we separate domain classes (Account, User) from service classes (AccountService)?",
+      "options": [
+        "To follow Single Responsibility Principle and separation of concerns",
+        "To make code longer",
+        "To use more files",
+        "It's not necessary"
+      ],
+      "correct_answer": 0,
+      "difficulty": "expert",
+      "explanation": "Separation of concerns: Domain classes represent business entities with their data and basic behavior. Service classes orchestrate operations, coordinate multiple domain objects, and enforce business rules. This makes code more maintainable and testable."
+    },
+    {
+      "id": "q20",
+      "question": "What would happen if we removed the abstract @abstractmethod decorator from Account.withdraw()?",
+      "options": [
+        "Nothing would change",
+        "You could create Account objects directly, but they would have no withdraw implementation",
+        "The code would run faster",
+        "Inheritance would stop working"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Without @abstractmethod, Account would no longer be abstract. You could create Account() objects directly, but calling withdraw() would fail or do nothing since there's no implementation. The abstract decorator enforces that subclasses must implement it."
+    },
+    {
+      "id": "q21",
+      "question": "What is an object in Python?",
+      "options": [
+        "A blueprint for creating instances",
+        "An instance of a class with its own data and methods",
+        "A function that returns values",
+        "A variable that stores data"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "An object is an instance of a class. When you create an object from a class, it has its own copy of the attributes defined in the class and can use the methods defined in the class."
+    },
+    {
+      "id": "q22",
+      "question": "What is the difference between a class and an object?",
+      "options": [
+        "There is no difference",
+        "A class is a template, an object is an instance created from that template",
+        "A class is an object",
+        "An object is a class"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "A class is like a blueprint or template that defines what attributes and methods objects will have. An object is a specific instance created from that class, with actual values for those attributes."
+    },
+    {
+      "id": "q23",
+      "question": "What does 'self' represent in a Python class method?",
+      "options": [
+        "The class itself",
+        "The instance of the class calling the method",
+        "A keyword that must be used",
+        "The parent class"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "self is a reference to the current instance of the class. When you call a method on an object, Python automatically passes that object as the first argument (self) to the method."
+    },
+    {
+      "id": "q24",
+      "question": "What is a class variable in Python?",
+      "options": [
+        "A variable that belongs to each instance",
+        "A variable shared by all instances of a class",
+        "A variable that cannot be changed",
+        "A variable outside the class"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "A class variable is defined at the class level and is shared by all instances of that class. All objects created from the class share the same class variable."
+    },
+    {
+      "id": "q25",
+      "question": "What is an instance variable?",
+      "options": [
+        "A variable shared by all objects",
+        "A variable unique to each object instance",
+        "A variable that cannot be modified",
+        "A global variable"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "An instance variable belongs to a specific object instance. Each object has its own copy of instance variables with potentially different values."
+    },
+    {
+      "id": "q26",
+      "question": "What is method overriding in Python?",
+      "options": [
+        "Creating a new method in a subclass",
+        "Replacing a parent class method with a new implementation in a subclass",
+        "Calling a parent method",
+        "Deleting a method"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "Method overriding occurs when a subclass provides its own implementation of a method that is already defined in its parent class, replacing the parent's implementation."
+    },
+    {
+      "id": "q27",
+      "question": "What is the purpose of the super() function?",
+      "options": [
+        "To call methods from the parent class",
+        "To create a new object",
+        "To delete an object",
+        "To access private variables"
+      ],
+      "correct_answer": 0,
+      "difficulty": "easy",
+      "explanation": "super() is used to call methods from the parent class. It's commonly used in __init__ to call the parent class constructor, ensuring proper initialization."
+    },
+    {
+      "id": "q28",
+      "question": "What does inheritance allow in Python?",
+      "options": [
+        "Creating multiple objects",
+        "A class to inherit attributes and methods from another class",
+        "Storing data in files",
+        "Running code faster"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "Inheritance allows a child class (subclass) to inherit attributes and methods from a parent class (superclass), promoting code reuse and establishing an 'is-a' relationship."
+    },
+    {
+      "id": "q29",
+      "question": "What is a method in Python?",
+      "options": [
+        "A function defined outside a class",
+        "A function defined inside a class that operates on instances",
+        "A variable in a class",
+        "A constant value"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "A method is a function that is defined inside a class and is associated with instances of that class. Methods typically take 'self' as the first parameter to access instance data."
+    },
+    {
+      "id": "q30",
+      "question": "What is the @property decorator used for?",
+      "options": [
+        "To make a method callable like a function",
+        "To make a method accessible like an attribute",
+        "To make a method private",
+        "To delete a method"
+      ],
+      "correct_answer": 1,
+      "difficulty": "easy",
+      "explanation": "The @property decorator allows you to define a method that can be accessed like an attribute, without using parentheses. It's useful for computed properties or read-only access."
+    },
+    {
+      "id": "q31",
+      "question": "What is the difference between __str__ and __repr__?",
+      "options": [
+        "They are the same",
+        "__str__ is for users, __repr__ is for developers and should be unambiguous",
+        "__repr__ is for users, __str__ is for developers",
+        "Only __str__ exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "__str__ returns a human-readable string representation (for end users), while __repr__ returns an unambiguous representation that ideally could recreate the object (for developers)."
+    },
+    {
+      "id": "q32",
+      "question": "What is duck typing in Python?",
+      "options": [
+        "A type of bird",
+        "Focusing on what an object can do (methods) rather than what it is (type)",
+        "A way to create ducks in code",
+        "A type checking mechanism"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Duck typing is a programming concept where the type or class of an object is less important than the methods it defines. 'If it walks like a duck and quacks like a duck, it's a duck.'"
+    },
+    {
+      "id": "q33",
+      "question": "What is method resolution order (MRO) in Python?",
+      "options": [
+        "The order in which methods are called",
+        "The order in which Python searches for methods in a class hierarchy",
+        "The order of method definitions",
+        "The order of method execution"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "MRO determines the order in which Python searches for methods and attributes when dealing with inheritance. It follows the C3 linearization algorithm."
+    },
+    {
+      "id": "q34",
+      "question": "What is the difference between __new__ and __init__?",
+      "options": [
+        "They are the same",
+        "__new__ creates the object, __init__ initializes it",
+        "__init__ creates the object, __new__ initializes it",
+        "Only __init__ exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "__new__ is called first to create the instance (object creation), and __init__ is called after to initialize the newly created instance (object initialization)."
+    },
+    {
+      "id": "q35",
+      "question": "What are magic methods (dunder methods) in Python?",
+      "options": [
+        "Methods that perform magic",
+        "Special methods with double underscores that define object behavior",
+        "Methods that cannot be called",
+        "Methods that are private"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Magic methods (dunder methods) are special methods with double underscores (like __init__, __str__, __add__) that define how objects behave with built-in Python operations."
+    },
+    {
+      "id": "q36",
+      "question": "What is the difference between isinstance() and type()?",
+      "options": [
+        "They are the same",
+        "isinstance() checks inheritance, type() returns exact type",
+        "type() checks inheritance, isinstance() returns exact type",
+        "Neither exists in Python"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "isinstance() is inheritance-aware and returns True if the object is an instance of the class or any subclass. type() returns the exact class without considering inheritance."
+    },
+    {
+      "id": "q37",
+      "question": "What is method chaining in Python?",
+      "options": [
+        "Linking multiple classes",
+        "Calling multiple methods on an object in sequence",
+        "Inheriting from multiple classes",
+        "Creating method chains"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Method chaining allows calling multiple methods on an object in a single statement. Each method returns self (or the object) so the next method can be called on the result."
+    },
+    {
+      "id": "q38",
+      "question": "What is the difference between aggregation and composition?",
+      "options": [
+        "They are the same",
+        "Composition is stronger (child can't exist without parent), aggregation is weaker",
+        "Aggregation is stronger, composition is weaker",
+        "Neither exists in OOP"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "Both are 'has-a' relationships. Composition is stronger - the child cannot exist without the parent. Aggregation is weaker - the child can exist independently."
+    },
+    {
+      "id": "q39",
+      "question": "What is the purpose of __slots__ in Python?",
+      "options": [
+        "To make objects faster",
+        "To restrict which attributes can be set, saving memory",
+        "To make attributes private",
+        "To enable inheritance"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "__slots__ restricts which attributes can be set on an object, preventing __dict__ creation and saving memory, especially useful when creating many small objects."
+    },
+    {
+      "id": "q40",
+      "question": "What is the difference between __getattr__ and __getattribute__?",
+      "options": [
+        "They are the same",
+        "__getattribute__ is called for all attribute access, __getattr__ only for missing attributes",
+        "__getattr__ is called for all, __getattribute__ only for missing",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "medium",
+      "explanation": "__getattribute__ intercepts ALL attribute access. __getattr__ is a fallback that's only called when Python can't find the attribute through normal means."
+    },
+    {
+      "id": "q41",
+      "question": "What is the difference between shallow copy and deep copy?",
+      "options": [
+        "They are the same",
+        "Shallow copy copies top level, deep copy recursively copies everything",
+        "Deep copy copies top level, shallow copy recursively copies",
+        "Neither exists in Python"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Shallow copy creates a new object but references the same nested objects. Deep copy creates a completely independent copy with all nested objects also copied."
+    },
+    {
+      "id": "q42",
+      "question": "What is the Factory Pattern?",
+      "options": [
+        "A way to create factories",
+        "A design pattern that provides an interface for creating objects without specifying their exact class",
+        "A way to store objects",
+        "A type of inheritance"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Factory Pattern centralizes object creation. Instead of calling constructors directly, you call a factory method that decides which class to instantiate based on parameters."
+    },
+    {
+      "id": "q43",
+      "question": "What is the Observer Pattern?",
+      "options": [
+        "A way to observe objects",
+        "A design pattern where objects subscribe to events and are notified when state changes",
+        "A type of inheritance",
+        "A way to delete objects"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Observer Pattern defines a one-to-many dependency. When one object (subject) changes state, all dependent objects (observers) are notified automatically, creating loose coupling."
+    },
+    {
+      "id": "q44",
+      "question": "What is the Strategy Pattern?",
+      "options": [
+        "A way to create strategies",
+        "A design pattern that defines a family of algorithms and makes them interchangeable",
+        "A type of composition",
+        "A way to store data"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Strategy Pattern allows you to select an algorithm at runtime. Instead of hardcoding a single algorithm, you define a family of algorithms and make them interchangeable."
+    },
+    {
+      "id": "q45",
+      "question": "What is the Decorator Pattern?",
+      "options": [
+        "Python's @decorator syntax",
+        "A design pattern that allows behavior to be added to objects dynamically",
+        "A way to decorate code",
+        "A type of inheritance"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Decorator Pattern attaches additional responsibilities to objects dynamically. It wraps objects to add functionality without modifying their structure. Python's @decorator syntax uses this pattern."
+    },
+    {
+      "id": "q46",
+      "question": "What is the difference between early binding and late binding?",
+      "options": [
+        "They are the same",
+        "Early binding resolves at compile time, late binding at runtime",
+        "Late binding resolves at compile time, early binding at runtime",
+        "Neither exists in Python"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Early binding (static binding) resolves method calls at compile time. Late binding (dynamic binding) resolves at runtime. Python uses late binding, which enables polymorphism and duck typing."
+    },
+    {
+      "id": "q47",
+      "question": "What is the Adapter Pattern?",
+      "options": [
+        "A way to adapt code",
+        "A design pattern that allows incompatible interfaces to work together",
+        "A type of inheritance",
+        "A way to modify objects"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Adapter Pattern acts as a bridge between two incompatible interfaces, converting one interface into another that clients expect. Useful for integrating third-party libraries or legacy code."
+    },
+    {
+      "id": "q48",
+      "question": "What is the difference between mixins and multiple inheritance?",
+      "options": [
+        "They are the same",
+        "Mixins are a specific use case of multiple inheritance for adding features",
+        "Multiple inheritance is a type of mixin",
+        "Neither exists in Python"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Mixins are small, focused classes designed to be inherited alongside other classes to add functionality. They're a specific use case of multiple inheritance where the intent is to add features rather than establish 'is-a' relationships."
+    },
+    {
+      "id": "q49",
+      "question": "What is the Command Pattern?",
+      "options": [
+        "A way to execute commands",
+        "A design pattern that encapsulates requests as objects, allowing queuing and undo operations",
+        "A type of composition",
+        "A way to store commands"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Command Pattern turns requests into objects. Each command object knows how to execute itself and can store state for undo. This allows queuing commands, logging them, or undoing them."
+    },
+    {
+      "id": "q50",
+      "question": "What is the difference between abstract classes and interfaces in Python?",
+      "options": [
+        "Python has separate interface and abstract class concepts",
+        "Python uses Abstract Base Classes (ABC) which serve both purposes",
+        "Python only has interfaces",
+        "Python only has abstract classes"
+      ],
+      "correct_answer": 1,
+      "difficulty": "hard",
+      "explanation": "Python doesn't have a separate 'interface' concept like Java. Abstract Base Classes (ABC) serve both purposes - they can define abstract methods (contract) and provide default implementations."
+    },
+    {
+      "id": "q51",
+      "question": "What is the Singleton Pattern and when is it useful?",
+      "options": [
+        "A pattern that creates multiple instances",
+        "A pattern that ensures only one instance of a class exists, useful for shared resources",
+        "A type of inheritance",
+        "A way to delete objects"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Singleton Pattern restricts instantiation to one object. Useful for database connections, configuration managers, or logging systems where you want a single shared instance. However, it can make testing harder."
+    },
+    {
+      "id": "q52",
+      "question": "How does dependency injection improve testability?",
+      "options": [
+        "It doesn't improve testability",
+        "It allows you to inject mock dependencies, making unit testing easier",
+        "It makes code run faster",
+        "It reduces code size"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Dependency injection allows you to provide dependencies from outside the class. In tests, you can inject mock objects instead of real ones, making unit testing easier and more isolated."
+    },
+    {
+      "id": "q53",
+      "question": "What is the difference between __dict__ and __slots__?",
+      "options": [
+        "They are the same",
+        "__dict__ stores attributes in a dictionary, __slots__ restricts attributes and saves memory",
+        "__slots__ stores in dictionary, __dict__ restricts",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "By default, Python stores instance attributes in __dict__ (flexible but uses more memory). __slots__ declares exactly which attributes are allowed, preventing __dict__ creation and saving memory."
+    },
+    {
+      "id": "q54",
+      "question": "What is the Template Method Pattern?",
+      "options": [
+        "A way to create templates",
+        "A design pattern that defines the skeleton of an algorithm in a base class",
+        "A type of composition",
+        "A way to store templates"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Template Method Pattern defines the skeleton of an algorithm in a base class, letting subclasses override specific steps without changing the algorithm's structure."
+    },
+    {
+      "id": "q55",
+      "question": "What is the Facade Pattern?",
+      "options": [
+        "A way to create facades",
+        "A design pattern that provides a simplified interface to a complex subsystem",
+        "A type of inheritance",
+        "A way to hide code"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Facade Pattern provides a simplified interface to a complex subsystem. It hides the complexity of the subsystem and provides a single, easy-to-use interface for clients."
+    },
+    {
+      "id": "q56",
+      "question": "What is the Proxy Pattern?",
+      "options": [
+        "A way to create proxies",
+        "A design pattern that provides a placeholder or surrogate for another object",
+        "A type of composition",
+        "A way to store proxies"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Proxy Pattern provides a placeholder for another object. The proxy controls access to the original object, allowing you to add functionality like lazy loading, access control, or caching."
+    },
+    {
+      "id": "q57",
+      "question": "What is the Builder Pattern?",
+      "options": [
+        "A way to build objects",
+        "A design pattern that constructs complex objects step by step",
+        "A type of inheritance",
+        "A way to store builders"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Builder Pattern constructs complex objects step by step. It allows you to produce different types and representations of an object using the same construction code."
+    },
+    {
+      "id": "q58",
+      "question": "What is the Chain of Responsibility Pattern?",
+      "options": [
+        "A way to chain methods",
+        "A design pattern that passes requests along a chain of handlers",
+        "A type of composition",
+        "A way to store chains"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Chain of Responsibility Pattern passes requests along a chain of handlers. Each handler decides either to process the request or pass it to the next handler in the chain."
+    },
+    {
+      "id": "q59",
+      "question": "What is the State Pattern?",
+      "options": [
+        "A way to manage state",
+        "A design pattern that allows an object to alter its behavior when its internal state changes",
+        "A type of inheritance",
+        "A way to store state"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "State Pattern allows an object to alter its behavior when its internal state changes. The object will appear to change its class, with different behavior for different states."
+    },
+    {
+      "id": "q60",
+      "question": "What is the Visitor Pattern?",
+      "options": [
+        "A way to visit objects",
+        "A design pattern that separates algorithms from the objects they operate on",
+        "A type of composition",
+        "A way to store visitors"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Visitor Pattern separates algorithms from the objects they operate on. It allows you to add new operations to objects without modifying their classes by using a visitor object."
+    },
+    {
+      "id": "q61",
+      "question": "What is the difference between __call__ and regular methods?",
+      "options": [
+        "They are the same",
+        "__call__ makes an instance callable like a function",
+        "Regular methods make instances callable",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "The __call__ magic method makes an instance of a class callable like a function. When you call the instance, Python invokes the __call__ method."
+    },
+    {
+      "id": "q62",
+      "question": "What is the Memento Pattern?",
+      "options": [
+        "A way to remember things",
+        "A design pattern that captures and restores an object's internal state",
+        "A type of inheritance",
+        "A way to store memories"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Memento Pattern captures and externalizes an object's internal state without violating encapsulation, so the object can be restored to this state later. Useful for undo functionality."
+    },
+    {
+      "id": "q63",
+      "question": "What is the difference between __getitem__ and __setitem__?",
+      "options": [
+        "They are the same",
+        "__getitem__ enables indexing for reading, __setitem__ for writing",
+        "__setitem__ enables reading, __getitem__ enables writing",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__getitem__ allows you to use square bracket notation to read values (obj[key]). __setitem__ allows you to set values using square bracket notation (obj[key] = value)."
+    },
+    {
+      "id": "q64",
+      "question": "What is the Mediator Pattern?",
+      "options": [
+        "A way to mediate between objects",
+        "A design pattern that defines how objects interact, promoting loose coupling",
+        "A type of inheritance",
+        "A way to store mediators"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Mediator Pattern defines how objects interact, reducing dependencies between them. Instead of objects communicating directly, they communicate through a mediator object."
+    },
+    {
+      "id": "q65",
+      "question": "What is the Iterator Pattern?",
+      "options": [
+        "A way to iterate over objects",
+        "A design pattern that provides a way to access elements of a collection sequentially",
+        "A type of composition",
+        "A way to store iterators"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Iterator Pattern provides a way to access elements of a collection sequentially without exposing its underlying representation. Python's for loops use this pattern."
+    },
+    {
+      "id": "q66",
+      "question": "What is the difference between __iter__ and __next__?",
+      "options": [
+        "They are the same",
+        "__iter__ returns the iterator, __next__ returns the next item",
+        "__next__ returns iterator, __iter__ returns next item",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__iter__ returns the iterator object itself (or self if the object is its own iterator). __next__ returns the next item in the sequence and raises StopIteration when done."
+    },
+    {
+      "id": "q67",
+      "question": "What is the Flyweight Pattern?",
+      "options": [
+        "A way to make objects lightweight",
+        "A design pattern that minimizes memory usage by sharing data with similar objects",
+        "A type of inheritance",
+        "A way to store flyweights"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Flyweight Pattern minimizes memory usage by sharing as much data as possible with similar objects. It's useful when you need to create many similar objects."
+    },
+    {
+      "id": "q68",
+      "question": "What is the difference between __enter__ and __exit__?",
+      "options": [
+        "They are the same",
+        "__enter__ is called when entering a with block, __exit__ when leaving",
+        "__exit__ is called when entering, __enter__ when leaving",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "These methods implement the context manager protocol. __enter__ is called when entering a 'with' block, __exit__ is called when leaving (even if an exception occurs)."
+    },
+    {
+      "id": "q69",
+      "question": "What is the Bridge Pattern?",
+      "options": [
+        "A way to bridge objects",
+        "A design pattern that separates abstraction from implementation",
+        "A type of inheritance",
+        "A way to store bridges"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Bridge Pattern separates abstraction from implementation, allowing them to vary independently. It's useful when you want to avoid a permanent binding between abstraction and implementation."
+    },
+    {
+      "id": "q70",
+      "question": "What is the difference between __hash__ and __eq__?",
+      "options": [
+        "They are the same",
+        "__hash__ computes hash value, __eq__ compares equality",
+        "__eq__ computes hash, __hash__ compares",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__hash__ returns the hash value of the object (used in sets and as dictionary keys). __eq__ defines equality comparison. If __eq__ is defined, __hash__ must also be defined."
+    },
+    {
+      "id": "q71",
+      "question": "What is a descriptor in Python?",
+      "options": [
+        "A way to describe objects",
+        "An object that defines how attribute access works (__get__, __set__, __delete__)",
+        "A type of method",
+        "A way to store descriptions"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "A descriptor is an object that defines how attribute access works through __get__, __set__, and __delete__ methods. Properties, class methods, and static methods are implemented using descriptors."
+    },
+    {
+      "id": "q72",
+      "question": "What is the difference between __get__, __set__, and __delete__ in descriptors?",
+      "options": [
+        "They are the same",
+        "__get__ is for reading, __set__ for writing, __delete__ for deleting attributes",
+        "__set__ is for reading, __get__ for writing",
+        "None exist"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "These are descriptor methods: __get__ is called when the attribute is read, __set__ when it's written, and __delete__ when it's deleted. They allow fine-grained control over attribute access."
+    },
+    {
+      "id": "q73",
+      "question": "What is metaclass in Python?",
+      "options": [
+        "A class that creates classes",
+        "A regular class",
+        "A method",
+        "A variable"
+      ],
+      "correct_answer": 0,
+      "difficulty": "expert",
+      "explanation": "A metaclass is a class whose instances are classes. Just as a class defines how instances behave, a metaclass defines how classes behave. It's the class of a class."
+    },
+    {
+      "id": "q74",
+      "question": "What is the difference between __new__ and __init__ in metaclasses?",
+      "options": [
+        "They are the same",
+        "__new__ creates the class, __init__ initializes it",
+        "__init__ creates the class, __new__ initializes it",
+        "Neither is used in metaclasses"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "In a metaclass, __new__ is called to create the class object itself, and __init__ is called to initialize the newly created class. This is similar to regular classes but operates at the class level."
+    },
+    {
+      "id": "q75",
+      "question": "What is the difference between data descriptors and non-data descriptors?",
+      "options": [
+        "They are the same",
+        "Data descriptors define __set__ or __delete__, non-data descriptors only __get__",
+        "Non-data descriptors define __set__, data descriptors only __get__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Data descriptors define __set__ or __delete__ methods and have higher priority in attribute lookup. Non-data descriptors only define __get__ and have lower priority."
+    },
+    {
+      "id": "q76",
+      "question": "What is the difference between __dict__ and vars()?",
+      "options": [
+        "They are the same",
+        "vars() returns __dict__ for objects, can also work with modules",
+        "__dict__ returns vars()",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "vars() is a built-in function that returns the __dict__ attribute of an object. For objects, vars(obj) is equivalent to obj.__dict__. vars() can also work with modules."
+    },
+    {
+      "id": "q77",
+      "question": "What is the difference between __getattr__ and __getattribute__ in terms of lookup order?",
+      "options": [
+        "They are the same",
+        "__getattribute__ is called first for all lookups, __getattr__ is fallback",
+        "__getattr__ is called first, __getattribute__ is fallback",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__getattribute__ is called for EVERY attribute access attempt. If it raises AttributeError, then __getattr__ is called as a fallback. __getattr__ is only called when normal lookup fails."
+    },
+    {
+      "id": "q78",
+      "question": "What is the difference between __del__ and del statement?",
+      "options": [
+        "They are the same",
+        "__del__ is a method called when object is garbage collected, del removes reference",
+        "del calls __del__, they're identical",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "del statement removes a name binding (reference). __del__ is a method called when the object is about to be garbage collected. del doesn't necessarily call __del__ immediately."
+    },
+    {
+      "id": "q79",
+      "question": "What is the difference between __repr__ and __str__ in terms of when they're called?",
+      "options": [
+        "They are the same",
+        "__repr__ is for developers, __str__ for users. If __str__ missing, __repr__ used",
+        "__str__ is for developers, __repr__ for users",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__repr__ should be unambiguous (for developers), __str__ should be readable (for users). If __str__ is not defined, Python falls back to __repr__. repr() always calls __repr__, str() prefers __str__."
+    },
+    {
+      "id": "q80",
+      "question": "What is the difference between __add__ and __iadd__?",
+      "options": [
+        "They are the same",
+        "__add__ is for + operator, __iadd__ is for += operator",
+        "__iadd__ is for +, __add__ is for +=",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__add__ implements the + operator (creates new object). __iadd__ implements the += operator (in-place addition, modifies existing object). If __iadd__ is not defined, += falls back to __add__."
+    },
+    {
+      "id": "q81",
+      "question": "What is the difference between __contains__ and 'in' operator?",
+      "options": [
+        "They are the same",
+        "__contains__ defines behavior for 'in' operator",
+        "'in' defines __contains__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__contains__ magic method defines how the 'in' operator works for your class. When you write 'item in obj', Python calls obj.__contains__(item)."
+    },
+    {
+      "id": "q82",
+      "question": "What is the difference between __len__ and len()?",
+      "options": [
+        "They are the same",
+        "__len__ defines behavior for len() function",
+        "len() defines __len__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__len__ magic method defines how the len() function works for your class. When you write len(obj), Python calls obj.__len__()."
+    },
+    {
+      "id": "q83",
+      "question": "What is the difference between __bool__ and truthiness?",
+      "options": [
+        "They are the same",
+        "__bool__ defines explicit truthiness, if missing Python uses __len__",
+        "Truthiness defines __bool__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__bool__ explicitly defines truthiness. If __bool__ is not defined, Python falls back to __len__ (non-zero is truthy). If neither exists, all instances are truthy."
+    },
+    {
+      "id": "q84",
+      "question": "What is the difference between __format__ and format()?",
+      "options": [
+        "They are the same",
+        "__format__ defines behavior for format() function and f-strings",
+        "format() defines __format__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__format__ magic method defines how format() function and f-strings format your object. When you write format(obj, spec) or f'{obj:spec}', Python calls obj.__format__(spec)."
+    },
+    {
+      "id": "q85",
+      "question": "What is the difference between __getstate__ and __setstate__?",
+      "options": [
+        "They are the same",
+        "__getstate__ defines what to pickle, __setstate__ defines how to unpickle",
+        "__setstate__ defines what to pickle, __getstate__ defines unpickle",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__getstate__ defines what gets pickled (serialized), __setstate__ defines how to restore the object when unpickling. They're used for custom pickling behavior."
+    },
+    {
+      "id": "q86",
+      "question": "What is the difference between __reduce__ and __reduce_ex__?",
+      "options": [
+        "They are the same",
+        "__reduce_ex__ is extended version with protocol version, __reduce__ is basic",
+        "__reduce__ is extended, __reduce_ex__ is basic",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Both are used for pickling. __reduce_ex__ is the extended version that receives the protocol version, allowing you to provide different behavior for different pickle protocol versions."
+    },
+    {
+      "id": "q87",
+      "question": "What is the difference between __subclasshook__ and regular inheritance?",
+      "options": [
+        "They are the same",
+        "__subclasshook__ allows custom isinstance() behavior for ABCs",
+        "Regular inheritance defines __subclasshook__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__subclasshook__ is a class method in ABCs that allows you to customize isinstance() behavior. It can make classes that don't explicitly inherit from the ABC still be considered instances."
+    },
+    {
+      "id": "q88",
+      "question": "What is the difference between __instancecheck__ and isinstance()?",
+      "options": [
+        "They are the same",
+        "__instancecheck__ customizes isinstance() behavior for a class",
+        "isinstance() defines __instancecheck__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__instancecheck__ is a class method that customizes how isinstance() works for your class. When you write isinstance(obj, MyClass), Python calls MyClass.__instancecheck__(obj)."
+    },
+    {
+      "id": "q89",
+      "question": "What is the difference between __subclasscheck__ and issubclass()?",
+      "options": [
+        "They are the same",
+        "__subclasscheck__ customizes issubclass() behavior for a class",
+        "issubclass() defines __subclasscheck__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__subclasscheck__ is a class method that customizes how issubclass() works for your class. When you write issubclass(SubClass, MyClass), Python calls MyClass.__subclasscheck__(SubClass)."
+    },
+    {
+      "id": "q90",
+      "question": "What is the difference between __dir__ and dir()?",
+      "options": [
+        "They are the same",
+        "__dir__ customizes what dir() returns for an object",
+        "dir() defines __dir__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__dir__ magic method customizes what the dir() function returns for your object. When you write dir(obj), Python calls obj.__dir__() if it exists, otherwise uses default behavior."
+    },
+    {
+      "id": "q91",
+      "question": "What is the difference between __sizeof__ and sys.getsizeof()?",
+      "options": [
+        "They are the same",
+        "__sizeof__ defines object size, sys.getsizeof() calls it",
+        "sys.getsizeof() defines size, __sizeof__ calls it",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__sizeof__ returns the size of the object in bytes. sys.getsizeof() calls __sizeof__ and adds overhead. You can override __sizeof__ to customize size calculation."
+    },
+    {
+      "id": "q92",
+      "question": "What is the difference between __class__ and type()?",
+      "options": [
+        "They are the same",
+        "__class__ is an attribute, type() is a function that returns __class__",
+        "type() is an attribute, __class__ is a function",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__class__ is an attribute that references the class of an instance. type(obj) returns obj.__class__. For classes, type(cls) returns the metaclass."
+    },
+    {
+      "id": "q93",
+      "question": "What is the difference between __bases__ and __mro__?",
+      "options": [
+        "They are the same",
+        "__bases__ is tuple of direct parents, __mro__ is method resolution order",
+        "__mro__ is direct parents, __bases__ is resolution order",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__bases__ is a tuple of the direct parent classes. __mro__ (Method Resolution Order) is a tuple showing the complete inheritance chain in the order Python searches for methods."
+    },
+    {
+      "id": "q94",
+      "question": "What is the difference between __name__ and __qualname__?",
+      "options": [
+        "They are the same",
+        "__name__ is simple name, __qualname__ includes full path",
+        "__qualname__ is simple, __name__ includes path",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__name__ is the simple name of the class/function. __qualname__ is the qualified name that includes the full path (e.g., 'OuterClass.InnerClass.method')."
+    },
+    {
+      "id": "q95",
+      "question": "What is the difference between __module__ and __package__?",
+      "options": [
+        "They are the same",
+        "__module__ is module name, __package__ is package name",
+        "__package__ is module, __module__ is package",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__module__ is the name of the module where the class is defined. __package__ is the name of the package containing the module. For packages, __package__ is the package name itself."
+    },
+    {
+      "id": "q96",
+      "question": "What is the difference between __doc__ and help()?",
+      "options": [
+        "They are the same",
+        "__doc__ is the docstring attribute, help() displays it and more",
+        "help() is the docstring, __doc__ displays it",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__doc__ is the docstring attribute of an object. help() function displays the docstring along with other information like method signatures, inheritance, etc."
+    },
+    {
+      "id": "q97",
+      "question": "What is the difference between __annotations__ and type hints?",
+      "options": [
+        "They are the same",
+        "__annotations__ stores type hints as a dictionary",
+        "Type hints define __annotations__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "Type hints are the syntax you write (e.g., def func(x: int) -> str). __annotations__ is a dictionary that stores these type hints, accessible at runtime."
+    },
+    {
+      "id": "q98",
+      "question": "What is the difference between __init_subclass__ and __new__?",
+      "options": [
+        "They are the same",
+        "__init_subclass__ is called when subclass is created, __new__ when instance is created",
+        "__new__ is for subclasses, __init_subclass__ for instances",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__init_subclass__ is a class method called when a subclass is being created (at class definition time). __new__ is called when an instance is being created."
+    },
+    {
+      "id": "q99",
+      "question": "What is the difference between __set_name__ and regular attribute assignment?",
+      "options": [
+        "They are the same",
+        "__set_name__ is called by descriptors when assigned to a class attribute",
+        "Regular assignment calls __set_name__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__set_name__ is a method in descriptors that's automatically called when the descriptor is assigned to a class attribute. It receives the class and the attribute name."
+    },
+    {
+      "id": "q100",
+      "question": "What is the difference between __class_getitem__ and generic types?",
+      "options": [
+        "They are the same",
+        "__class_getitem__ enables generic type syntax like List[int]",
+        "Generic types define __class_getitem__",
+        "Neither exists"
+      ],
+      "correct_answer": 1,
+      "difficulty": "expert",
+      "explanation": "__class_getitem__ enables the generic type syntax (e.g., list[int], dict[str, int]). It's called when you use square brackets on a class for type annotations."
+    }
+  ]
+}

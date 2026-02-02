@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="page-header">
+    <h1>Expert Design & Architecture</h1>
+    <p class="lead">How we structure the code before writing a single line.</p>
+  </header>
+
+  <section class="card-section">
+    <h2>The 4-Layer Architecture</h2>
+    <p>We split our code into four distinct layers to keep it clean and manageable.</p>
+    
+    <div class="layer-diagram">
+      <div class="layer ui">
+        <span class="layer-icon">🖥️</span>
+        <strong>Presentation Layer (Frontend + Routes)</strong>
+        <p>Handles HTTP requests and displays HTML.</p>
+      </div>
+      <div class="arrow">⬇️ calls</div>
+      <div class="layer service">
+        <span class="layer-icon">⚙️</span>
+        <strong>Service Layer (Business Logic)</strong>
+        <p>Orchestrates operations (e.g., "Transfer Money"). Enforces rules.</p>
+      </div>
+      <div class="arrow">⬇️ uses</div>
+      <div class="layer domain">
+        <span class="layer-icon">🧊</span>
+        <strong>Domain Layer (Core Models)</strong>
+        <p>Pure Python classes: <code>User</code>, <code>Account</code>, <code>Transaction</code>.</p>
+      </div>
+      <div class="arrow">⬇️ uses</div>
+      <div class="layer storage">
+        <span class="layer-icon">💾</span>
+        <strong>Storage Layer (Repositories)</strong>
+        <p>Reads/Writes JSON files. Hides file I/O details.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card-section">
+    <h2>Detailed Class Diagram with Code Mapping</h2>
+    
+    <div class="class-diagram-container">
+      <div class="class-box abstract">
+        <div class="class-header">
+          <span class="class-type">Abstract Base Class</span>
+          <h3>Account</h3>
+          <code class="file-ref">backend/domain/account.py</code>
+        </div>
+        <div class="class-body">
+          <div class="attributes">
+            <strong>Attributes:</strong>
+            <ul>
+              <li><code>account_id: str</code> - Unique identifier</li>
+              <li><code>user_id: str</code> - Owner of this account</li>
+              <li><code>_balance: int</code> <span class="protected">(protected)</span> - Current balance</li>
+            </ul>
+          </div>
+          <div class="methods">
+            <strong>Methods:</strong>
+            <ul>
+              <li><code>deposit(amount: int) -> int</code> - Adds money (shared logic)</li>
+              <li><code>withdraw(amount: int) -> int</code> <span class="abstract-method">(abstract)</span> - Removes money (must be implemented by subclasses)</li>
+              <li><code>@property balance</code> - Read-only access to balance</li>
+              <li><code>@property account_type</code> <span class="abstract-method">(abstract)</span> - Returns "savings" or "current"</li>
+            </ul>
+          </div>
+          <div class="concept-tags">
+            <span class="tag">Abstraction (ABC)</span>
+            <span class="tag">Encapsulation (_balance)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="inheritance-arrow">▼ Inherits</div>
+
+      <div class="subclasses-grid">
+        <div class="class-box concrete">
+          <div class="class-header">
+            <span class="class-type">Concrete Class</span>
+            <h3>SavingsAccount</h3>
+            <code class="file-ref">backend/domain/savings_account.py</code>
+          </div>
+          <div class="class-body">
+            <div class="overrides">
+              <strong>Overrides:</strong>
+              <ul>
+                <li><code>withdraw()</code> - <strong>No overdraft allowed</strong> (balance ≥ 0)</li>
+                <li><code>account_type</code> - Returns <code>"savings"</code></li>
+              </ul>
+            </div>
+            <div class="code-example">
+              <pre><code class="language-python">def withdraw(self, amount: int) -> int:
+    if amount > self._balance:
+        raise InsufficientFundsError(
+            "Savings account cannot go below 0."
+        )
+    self._balance -= amount
+    return self._balance</code></pre>
+            </div>
+            <div class="concept-tags">
+              <span class="tag">Inheritance</span>
+              <span class="tag">Polymorphism</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="class-box concrete">
+          <div class="class-header">
+            <span class="class-type">Concrete Class</span>
+            <h3>CurrentAccount</h3>
+            <code class="file-ref">backend/domain/current_account.py</code>
+          </div>
+          <div class="class-body">
+            <div class="overrides">
+              <strong>Overrides:</strong>
+              <ul>
+                <li><code>withdraw()</code> - <strong>Overdraft allowed</strong> (balance ≥ -500)</li>
+                <li><code>account_type</code> - Returns <code>"current"</code></li>
+              </ul>
+            </div>
+            <div class="code-example">
+              <pre><code class="language-python">OVERDRAFT_LIMIT = 500
+
+def withdraw(self, amount: int) -> int:
+    new_balance = self._balance - amount
+    if new_balance < -self.OVERDRAFT_LIMIT:
+        raise InsufficientFundsError(
+            f"Overdraft limit exceeded."
+        )
+    self._balance = new_balance
+    return self._balance</code></pre>
+            </div>
+            <div class="concept-tags">
+              <span class="tag">Inheritance</span>
+              <span class="tag">Polymorphism</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="explanation-box">
+      <h4>💡 Key Insight: Polymorphism in Action</h4>
+      <p>When you call <code>account.withdraw(100)</code>, Python automatically uses the correct implementation:</p>
+      <ul>
+        <li>If <code>account</code> is a <code>SavingsAccount</code> → checks balance ≥ 0</li>
+        <li>If <code>account</code> is a <code>CurrentAccount</code> → checks balance ≥ -500</li>
+      </ul>
+      <p>This is polymorphism: <strong>same method name, different behavior</strong> based on the object's actual type.</p>
+    </div>
+  </section>
+
+  <section class="call-to-action">
+    <a href="/learn/oop" class="btn btn-primary">Review OOP Concepts &rarr;</a>
+  </section>
+</div>
+{% endblock %}

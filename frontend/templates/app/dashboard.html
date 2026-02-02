@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-container">
+  <header class="dashboard-header row">
+    <div>
+      <h1 id="welcomeText">Loading...</h1>
+      <p class="subtitle">Here is your financial overview</p>
+    </div>
+    <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+  </header>
+
+  <div class="dashboard-grid">
+    <!-- Account Summary Card -->
+    <section class="card summary-card">
+      <h2>Account Details</h2>
+      <div class="stat-row">
+        <span class="label">Type</span>
+        <span class="value" id="accountType">-</span>
+      </div>
+      <div class="stat-row large">
+        <span class="label">Balance</span>
+        <span class="value accent" id="balance">-</span>
+      </div>
+      <button id="refreshBtn" class="btn btn-sm btn-outline">Refresh Data</button>
+    </section>
+
+    <!-- Deposit Card -->
+    <section class="card action-card">
+      <h2>Deposit Money</h2>
+      <form id="depositForm">
+        <div class="form-group">
+          <label>Amount</label>
+          <input name="amount" type="number" min="1" step="1" required placeholder="0.00" />
+        </div>
+        <button type="submit" class="btn btn-success full-width">Deposit Funds</button>
+      </form>
+      <div id="depositMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <!-- Withdraw Card -->
+    <section class="card action-card">
+      <h2>Withdraw Money</h2>
+      <form id="withdrawForm">
+        <div class="form-group">
+          <label>Amount</label>
+          <input name="amount" type="number" min="1" step="1" required placeholder="0.00" />
+        </div>
+        <button type="submit" class="btn btn-danger full-width">Withdraw Funds</button>
+      </form>
+      <div id="withdrawMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <!-- Transactions Card -->
+    <section class="card full-width">
+      <div class="row">
+        <h2>Transaction History</h2>
+        <button id="loadTxBtn" class="btn btn-sm btn-outline">Load History</button>
+      </div>
+      
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="txTableBody">
+            <!-- JS will populate this -->
+          </tbody>
+        </table>
+      </div>
+      <div id="txMessage" class="message" aria-live="polite"></div>
+    </section>
+  </div>
+</div>
+{% endblock %}
